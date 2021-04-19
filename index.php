@@ -132,7 +132,7 @@ if(isset($_GET['code'])){
               <div class="col-lg-6" style="background-color: white;">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Bienvenido a la feria oportunidades!</h1>
+                    <h1 class="h4 text-gray-900 mb-4">Bienvenido a Chipcha Web</h1>
                   </div>
                   <div class="form-group row" id="alert_login"></div>
                   <form class="user" id="form_login" action="javascript:void(0);" method="post">
@@ -146,14 +146,11 @@ if(isset($_GET['code'])){
                       Iniciar Sesión
                     </button>
                     <hr>
-                    <a href="<?php echo $url_google;?>" class="btn btn-google btn-user btn-block">
-                      <i class="fab fa-google fa-fw"></i> Iniciar Sesión con Google
+                    <a href="register.php" class="btn btn-google btn-user btn-block"> Registrarme!
                     </a>
                   </form>
                   <hr>
-                  <div class="text-center">
-                    <a class="small" href="register.php">Registrarme!</a>
-                  </div>
+                 
                 </div>
               </div>
             </div>
