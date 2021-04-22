@@ -12,7 +12,7 @@ $fecha = date('Y-m-d');
 $aux= 0;
 $response = [];
 
-$query = "SELECT e.cod_estudiante, e.nombre_completo, e.correo_estudiante, e.numero_solicitudes, p.nom_programa, e.semestre, e.cod_HV, e.estado from ESTUDIANTE e, PROGRAMA p where e.correo_estudiante ='".$username."' and e.password_estudiante='".$pass."' and e.cod_programa=p.cod_programa";
+$query = "SELECT c.correo, c.nombre, e.correo, e.nombre, r.NIT, r.razonSocial from cliente c, empleado e, registradora r where e.correo_estudiante ='".$username."' and e.password_estudiante='".$pass."' and e.cod_programa=p.cod_programa";
 $stmt = $mysqli->prepare($query);
 $stmt -> execute();
 $stmt -> bind_result($id,$nombre,$correo,$numero_solicitudes,$programa,$semestre,$cod_hv,$estado);
