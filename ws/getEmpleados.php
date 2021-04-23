@@ -10,7 +10,7 @@ $rta="";
 $empleados=array();
 while($stmt -> fetch()) {
     $aux=1;
-    $company=array(
+    $empleado=array(
         "cod_empleado"=>$cod_empleado,
         "nom_empleado"=>$nom_empleado,
         "correo_empleado"=>$correo_empleado,
@@ -21,7 +21,7 @@ while($stmt -> fetch()) {
 $response=array();
 if(count($empleados)>0){
     $response = array(
-        'empleado' => $empleados,
+        'empleados' => $empleados,
         'status' => 1
     );
 }else{

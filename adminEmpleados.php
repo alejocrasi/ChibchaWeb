@@ -75,13 +75,14 @@ if (!isset($_SESSION['redirect'])) {
     $.ajax({
         type: "POST",
         url: "ws/getEmpleados.php",
-        success: function (data) {    
+        success: function (data) { 
+          console.log(data);   
         data = JSON.parse(data);    
             if (data["status"] == 1) {
                 data = data["empleados"];
                 var html = '';
                 var i;
-                for (i = 0; i < data.length; i++) {
+                for (i = 0; i < data.length ; i++) {
             
                   
                 html += '<tr>' +
@@ -89,12 +90,11 @@ if (!isset($_SESSION['redirect'])) {
                         '<td>' + data[i]["nom_empleado"] + '</td>' +
                         '<td>' + data[i]["correo_empleado"] + '</td>' +
                         '<td>' + data[i]["password_empleado"] + '</td>' +     
-                        '<td><a href="editEmpleado.php?correo=' + data[i]["correo_empleado"] +'">'+'<button type="button" rel=tooltip" class="btn btn-info btn-rounded">editar'
-                        '</tr>'
-             ;
+                        '<td><a href="editEmpleado.php?correo=' + data[i]["correo_empleado"] +'">'+'<button type="button" rel=tooltip" class="btn btn-info btn-rounded">editar ' +  
+                        '</tr>';
            }
           
-          $('#company tbody').html(html);
+          $('#empleado tbody').html(html);
           
             }
             $("#contentPage").html(data);
@@ -233,14 +233,15 @@ if (!isset($_SESSION['redirect'])) {
                   <p class="grid-header">Lista de Empleados</p>
                   <div class="item-wrapper text-center">
                       <div style="width: 1060px;">
-                      <table id="empleado" name="empleado" class="display nowrap dataTable dtr-inline collapsed no-footer" role="grid" aria-describedby="company_info">
+                      <table id="empleado" name="empleado" class="display nowrap dataTable dtr-inline collapsed no-footer" role="grid" aria-describedby="empleado_info">
                       <thead>
                       <tr role="row">
-                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="cod_empleado: Activar para ordenar la columna de manera ascendente" style="width: 1px;">NIT</th>
-                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="nom_empleado: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Correo</th>
-                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="correo_empleado : Activar para ordenar la columna de manera ascendente" style="width: 1px;">descripcion </th>
-                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="password_empleado: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Ingresos</th>
-                        
+                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="cod_empleado: Activar para ordenar la columna de manera ascendente" style="width: 1px;">cod_empleado</th>
+                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="nom_empleado: Activar para ordenar la columna de manera ascendente" style="width: 1px;">nom_empleado</th>
+                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="correo_empleado : Activar para ordenar la columna de manera ascendente" style="width: 1px;">correo_empleado </th>
+                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="password_empleado: Activar para ordenar la columna de manera ascendente" style="width: 1px;">password_empleado</th>
+                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="opciones: Activar para ordenar la columna de manera ascendente" style="width: 1px;">opciones</th>
+
                       </tr>
                     </thead>
                       <tbody id="empleado" name="empleado"><tr role="row" class="odd"></tr>
