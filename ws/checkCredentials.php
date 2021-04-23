@@ -115,6 +115,27 @@ if($aux==0){
     $stmt->close();
 }
 if($aux==0){
+    $query = "SELECT c.user_admin, c.password_admin from administrador c where c.user_admin ='".$username."' and c.password_admin='".$pass."'" ;
+    $stmt = $mysqli->prepare($query);
+    $stmt -> execute();
+    $stmt -> bind_result($user_admin,$password_admin);
+    while($stmt -> fetch()) {
+        session_start();
+        $aux=1;
+        $_SESSION['user_admin']=$user_admin;
+        $_SESSION['password_admin']=$password_admin;
+
+        $_SESSION['redirect']='adminHome.php';
+        $primer_nombre=explode(' ',$nom_empleado);
+        $response = array(
+            'comment' => 'Bienvenido '.$primer_nombre[0].'!!',
+            'redirect' =>'adminHome.php',
+            'status' => true
+        );
+    }
+    $stmt->close();
+}
+if($aux==0){
     $response = array(
         'comment' => 'No se encuentran registradas las credenciales en el sistema',
         'redirect' => '',

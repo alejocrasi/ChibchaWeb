@@ -1,11 +1,14 @@
 <?php
-header ("Pragma-directive: no-cache");
-header ("Cache-directive: no-cache");
-header ("Cache-control: no-cache");
-header ("Pragma: no-cache");
-header ("Expires: 0");
+header("Expires: Tue, 01 Jan 2000 00:00:00 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 session_start();
 
+if (!isset($_SESSION['redirect'])) {
+    header('Location: index.php');
+}
 
 ?>
 <!DOCTYPE html>
@@ -20,9 +23,7 @@ session_start();
     <link rel="stylesheet" href="assets/vendors/iconfonts/mdi/css/materialdesignicons.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.addons.css">
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
-
+    
     <!-- endinject -->
     <!-- vendor css for this page -->
     <!-- End vendor css for this page -->
@@ -31,6 +32,10 @@ session_start();
     <!-- endinject -->
     <!-- Layout style -->
     <link rel="stylesheet" href="assets/css/demo_1/style.css">
+
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+
     <!-- Layout style -->
     <link rel="shortcut icon" href="assets/images/favicon.ico" />
   </head>
@@ -50,12 +55,11 @@ session_start();
   margin-left:8%;
 }
 </style>
-
 <script>
-
-window.onload=function(){
-    getEstudiantes();
-
+   window.onload=function(){
+    
+    getCompanies();
+    
 
   };
   function verifyPass(){
@@ -157,52 +161,57 @@ window.onload=function(){
     }
   }
 
- function getEstudiantes(){
-      $.ajax({
-        type: "GET",
-        url: "ws/getEstudiantes.php", 
-        success: function (data) {
-          console.log(data);
-        data = JSON.parse(data);
+  function getCompanies(){
+    if ($.fn.DataTable.isDataTable( '#company' ) ) {
+        $('#company').DataTable().destroy();
+    }
+    $.ajax({
+        type: "POST",
+        url: "ws/getCompanies.php",
+        success: function (data) {    
+        data = JSON.parse(data);    
             if (data["status"] == 1) {
-                data = data["estudiantes"];
+                data = data["companies"];
                 var html = '';
                 var i;
                 for (i = 0; i < data.length; i++) {
-                  if(data[i]["estado"]=="ACTIVADO"){
-                    var estado = 'badge badge-primary';
-                  }else if(data[i]["estado"]=="INSCRITO"){
-                    estado='badge badge-success';
-                  }else if(data[i]["estado"]=="REGISTRADO"){
-                    estado='badge badge-dark';
-                  }else if(data[i]["estado"]=="CONTRATADO"){
-                    estado='badge badge-warning';
+                  if(data[i]["estado"]=="RECHAZADO"){
+                    var estado = 'btn btn-danger';
+                  }else if(data[i]["estado"]=="APROBADO"){
+                    estado='btn btn-success';
                   }else{
-                    estado='badge badge-info';
+                    estado='btn btn-info';
                   }
-                var olo= (data[i]['semestre']==null) ? '-' : data[i]['semestre'];
-                var aux= (data[i]['numero_solicitudes']==null) ? '-' : data[i]['numero_solicitudes'];
-
+                  
                 html += '<tr>' +
-                '<td><center>  <form method="post" target="_blank" action="pdf.php" id="formCV"> '+
-                              '<div title="Hoja De Vida">'+
-                              '<input type="hidden" id="id" name="id" value="'+ data[i]["cod_estudiante"] +'"/>'+
-                              '<button type="submit" style="background: url(assets/images/5112.png); width:50px; height:50px; background-size: 50px 50px; border: none;">'+
-                              '</form></center></div><center>' + data[i]["nombre_completo"] + '</center></td>' +
-                '<td><center>' + data[i]["correo_estudiante"] + '</center></td>' +
-                '<td><center>' + aux + '</center></td>' +
-                '<td><center>' + data[i]["nom_programa"] + '</center></td>' +
-                '<td><center>' + olo + '</center></td>' +
-                '<td><center><div class="'+estado+'">' + data[i]["estado"] + '</div></center></td>' +
-                '<td><center>' + data[i]["num_ingresos"] + '</center></td>' +
-                        '<td><a href="editStudents.php?codigo=' + data[i]["cod_estudiante"] +'">'+'<button type="button" rel=tooltip" class="btn btn-info btn-rounded">editar'
-                '</tr>'
-                }
-              $('#estudiante').html(html);
+                        '<td>'+
+                        '<div class="row text-center">'+
+                                   '<div class="col-12">'+
+                                       '<img width="50px" height="50px" class="thumb-sm rounded-circle mr-2" src="assets/images/logos/' + data[i]["logo"] + '">'+
+                                   '</div>'+
+                                   '<div class="col-12">'+
+                                       '<p>' + data[i]["nombre"] +'</p>'+
+                                   '</div>'+
+                               '</div>'+    
+                        '</td>' +
+                        '<td>' + data[i]["NIT"] + '</td>' +
+                        '<td>' + data[i]["correo_empresa"] + '</td>' +
+                        '<td>' + data[i]["descripcion_empresa"] + '</td>' +
+                        '<td>' + data[i]["num_ingresos"] + '</td>' +
+                        '<td><a href="javascript:void(0);" onclick="openModal('+data[i]["NIT"]+',\''+data[i]["estado"]+'\');" class="'+estado+'">'+ data[i]["estado"] + '</a></td>' +
+                        '<td><a href="assets/images/cc/' + data[i]["cc_empresa"] + '" target="blank"><img width="50px" height="50px"src="assets/images/pdf.png"></a></td>' +
+                        '<td><a href="editCompany.php?nit=' + data[i]["NIT"] +'">'+'<button type="button" rel=tooltip" class="btn btn-info btn-rounded">editar'
+                        '</tr>'
+
+             ;
+           }
+          
+          $('#company tbody').html(html);
+          
             }
-              $("#contentPage").html(data);
-                    $('#estudiantes').DataTable({
-                          "language": {
+            $("#contentPage").html(data);
+                    $('#company').DataTable({
+                        "language": {
                             "sProcessing":    "Procesando...",
                             "sLengthMenu":    "Mostrar _MENU_ registros",
                             "sZeroRecords":   "No se encontraron resultados",
@@ -226,21 +235,58 @@ window.onload=function(){
                                 "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                             }
                         }
-                    }); 
+                    });
         },
         error: function (data) {
             console.log(data);
         },
     })
-   }
+  }
+
+function openModal(id, estado){
+
+  $("#cambiarEstado").modal("show");  
+  console.log(estado);
+  $("#VEstado  option[value='"+estado+"']").attr("selected", true);
+  $('#nitVal2').val(id);
+         
+}
+
+
+    function valCompany(){
+      $.ajax({
+        type: "POST",
+        url: "ws/valCompany.php",
+        data:new FormData($('#valEmpresa')[0]),
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            console.log(data);
+            data = JSON.parse(data);
+            if (data["status"] == 1) {
+              $('#cambiarEstado').modal('toggle');
+              getCompanies();
+            }else{
+              if(data['error'] == 1062){
+                $('#cambiarEstado').modal('toggle');
+              }
+            }
+        },
+        error: function (data) {
+            console.log(data);
+        },
+    });
+  }
+  
 
 </script>
 
-<body class="header-fixed">
+  <body class="header-fixed">
     <!-- partial:../partials/_header.html -->
     <nav class="t-header">
       <div class="t-header-brand-wrapper">
-        <a href="empresa.php">
+        <a href="adminCompany.php">
           <img class="logo" src="assets/images/logo.png" alt="">
           <img class="logo-mini" src="assets/images/logo.png" alt="">
         </a>
@@ -284,9 +330,10 @@ window.onload=function(){
           <div class="display-avatar animated-avatar">
             <img class="profile-img img-lg rounded-circle" src="assets\images\profile\users\logoAdmin.jpg" alt="profile image">
           </div>
-
+          <div class="info-wrapper">
+            <p class="user-name"><?php echo $_SESSION['nombre'];?></p>
+          </div>
         </div>
-      
         <ul class="navigation-menu">
           <li class="nav-category-divider">Menu</li>
           <li>
@@ -329,7 +376,7 @@ window.onload=function(){
           <div class="viewport-header" style="margin-left: -2%;">
             <div class="row">
               <div class="col-12 py-5">
-                <h4 style="margin-left: 2%; width: 100%;">Estudiantes</h4>
+                <h4 style="margin-left: 2%; width: 100%;">Empresas</h4>
               </div>
             </div>       
           </div>
@@ -337,31 +384,55 @@ window.onload=function(){
             <div class="row">              
               <div class="col-lg-27">
                 <div class="grid">
-                  <p class="grid-header">Lista de Estudiantes</p>
+                  <p class="grid-header">Lista de Empresas</p>
                   <div class="item-wrapper text-center">
-                   <div style="width: 100%; height: 100%; ">
-                    <table id="estudiantes" name="estudiante" class="wrap dataTable dtr-inline collapsed no-footer" role="grid" aria-describedby="estudiante_info">
-                        <thead>
-                          <tr role="row">
-                            <th class="sorting_asc" tabindex="0" aria-controls="estudiante" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Nombre Estudiante: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Nombre Estudiante</th>                            
-                            <th class="sorting" tabindex="0" aria-controls="estudiante" rowspan="1" colspan="1" aria-label="Correo Estudiante: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Correo Estudiante</th>
-                            <th class="sorting" tabindex="0" aria-controls="estudiante" rowspan="1" colspan="1" aria-label="Solicitudes: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Solicitudes</th>
-                            <th class="sorting" tabindex="0" aria-controls="estudiante" rowspan="1" colspan="1" aria-label="Programa: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Programa</th>
-                            <th class="sorting" tabindex="0" aria-controls="estudiante" rowspan="1" colspan="1" aria-label="Semestre: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Semestre</th>
-                            <th class="sorting" tabindex="0" aria-controls="estudiante" rowspan="1" colspan="1" aria-label="Estado: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Estado</th>
-                            <th class="sorting" tabindex="0" aria-controls="estudiante" rowspan="1" colspan="1" aria-label="Ingresos: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Ingresos</th>
-                            <th class="sorting" tabindex="0" aria-controls="estudiante" rowspan="1" colspan="1" aria-label="Opciones: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Opciones</th>
-                          </tr>
-                        </thead>
-                        <tbody id="estudiante" name="estudiante" ><tr role="row" class="odd"></tr>
-
-                        </tbody>
+                      <div style="width: 1060px;">
+                      <table id="company" name="company" class="display nowrap dataTable dtr-inline collapsed no-footer" role="grid" aria-describedby="company_info">
+                      <thead>
+                      <tr role="row">
+                        <th class="sorting_asc" tabindex="0" aria-controls="company" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Logo: Activar para ordenar la columna de manera descendente" style="width: 59px;">Logo</th>
+                        <th class="sorting" tabindex="0" aria-controls="company" rowspan="1" colspan="1" aria-label="NIT: Activar para ordenar la columna de manera ascendente" style="width: 1px;">NIT</th>
+                        <th class="sorting" tabindex="0" aria-controls="company" rowspan="1" colspan="1" aria-label="Correo: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Correo</th>
+                        <th class="sorting" tabindex="0" aria-controls="company" rowspan="1" colspan="1" aria-label="Descripcion : Activar para ordenar la columna de manera ascendente" style="width: 1px;">descripcion </th>
+                        <th class="sorting" tabindex="0" aria-controls="company" rowspan="1" colspan="1" aria-label="Numero de ingresos: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Ingresos</th>
+                        <th class="sorting" tabindex="0" aria-controls="company" rowspan="1" colspan="1" aria-label="Estado: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Estado</th>
+                        <th class="sorting" tabindex="0" aria-controls="company" rowspan="1" colspan="1" aria-label="Camara de Comercio: Activar para ordenar la columna de manera ascendente" style="width: 1px;">C.C</th>
+                        <th class="sorting" tabindex="0" aria-controls="company" rowspan="1" colspan="1" aria-label="Opciones: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Opciones</th>
+                      </tr>
+                    </thead>
+                      <tbody id="company" name="company"><tr role="row" class="odd"></tr>
+                      </tbody>
+                        
                       </table>
-                     </div>
-                  </div>
+                    </div> 
                 </div>
-              </div>
-              <div class="modal fade" id="seePassword" tabindex="-1" role="dialog" aria-labelledby="addFavorite_modalLabel" aria-hidden="true">
+              </div>             
+        <!-- content viewport ends -->
+        <!-- partial:../partials/_footer.html -->
+        <footer class="footer">
+          <div class="row" style="display:block;text-align:center;">
+            <div>
+              <ul class="text-gray">
+                Powered By SoftHub Developments
+              </ul>
+            </div>
+            <div style="float:right;">
+              <ul>
+                <li><a href="#">Terminos de uso</a></li>
+                <li><a href="#">Politica de Privacidad</a></li>
+              </ul>
+            </div>
+            
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- page content ends -->
+    </div>
+    <!--page body ends -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="seePassword" tabindex="-1" role="dialog" aria-labelledby="addFavorite_modalLabel" aria-hidden="true">
         <div class="modal-dialog ui-corner-all" role="document">
             <div class="modal-content" id="modalBody" name="modalBody">
                 <div class="modal-body">
@@ -388,36 +459,50 @@ window.onload=function(){
             </div>
             </div>
         </div>
-    </div>             
-        <!-- content viewport ends -->
-        <!-- partial:../partials/_footer.html -->
-        <footer class="footer">
-          <div class="row" style="display:block;text-align:center;">
-            <div>
-              <ul class="text-gray">
-                Powered By SoftHub Developments
-              </ul>
-            </div>
-            <div style="float:right;">
-              <ul>
-                <li><a href="#">Terminos de uso</a></li>
-                <li><a href="#">Politica de Privacidad</a></li>
-              </ul>
-            </div>
-            
+    </div> 
+    <div class="modal fade" id="cambiarEstado" tabindex="-1" role="dialog" aria-labelledby="CambiarEstado"  aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Cambiar Estado</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-        </footer>
-        <!-- partial -->
+          <div class="modal-body">
+            <form id="valEmpresa" action="javascript:void(0);" onsubmit="valCompany();">
+            <div class="form-group row showcase_row_area">
+                <div class="col-md-5 showcase_text_area" id="nitVal" name="nitVal">
+                    <label for="VEstado">Cambiar Estado</label>
+                </div>
+                <input type="hidden" id="nitVal2" name="nitVal2" required  maxlength="50">
+                <div class="col-md-20 showcase_content_area">
+                    <select name="VEstado" class="form-control" id="VEstado" required>
+                      <option value="REGISTRADO">Registrado</option>
+                      <option value="RECHAZADO">Rechazar</option>
+                      <option value="APROBADO">Aceptar</option>
+                    </select> 
+                </div>          
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+          </form>
+        </div>
       </div>
-      <!-- page content ends -->
     </div>
-    <!--page body ends -->
+    
     <!-- SCRIPT LOADING START FORM HERE /////////////-->
     <!-- plugins:js -->
     <script src="assets/vendors/js/core.js"></script>
     <script src="assets/vendors/js/vendor.addons.js"></script>
     <!-- endinject -->
     <!-- Vendor Js For This Page Ends-->
+    <script src="assets/js/charts/chartjs.js"></script>
+    <script src="assets/vendors/chartjs/Chart.min.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+    <!-- build:js -->
     <!-- Vendor Js For This Page Ends-->
     <!-- build:js -->
     <script src="assets/js/template.js"></script>
