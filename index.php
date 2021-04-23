@@ -62,42 +62,6 @@ body {
   background-color: rgba(255,255,255,0.6);
 }
 </style>
-<script>
-function checkGmail(value){
-        $.ajax({
-            type: "POST",
-            url: "ws/checkCredentialsGmail.php",
-            data: {
-                'username': value
-            },
-            success: function (data) {
-                console.log(data);
-                data = JSON.parse(data);
-                console.log(data);
-                if (data["status"]) {
-                  Swal.fire(
-                    data['comment'],
-                    '',
-                    'success'
-                  ).then(function(){
-                    window.location = data['redirect'];
-                  });
-                } else {
-                  Swal.fire(
-                    data['comment'],
-                    '',
-                    'error'
-                  ).then(function(){
-                    window.location = data['redirect'];
-                  });               
-                }
-            },
-            error: function (data) {
-                console.log(data);
-            },
-        })
-    }
-</script>
 
 <?php
 $url_google='';
