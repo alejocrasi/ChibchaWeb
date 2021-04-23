@@ -207,7 +207,7 @@ if (!isset($_SESSION['redirect'])) {
             </a>
           </li>
           <li>
-            <a href="adminDistribuidoes.php">
+            <a href="adminDistribuidores.php">
               <span class="link-title">Gestion de distribuidores</span>
               <i class="mdi mdi-clipboard-outline link-icon"></i>
             </a>
