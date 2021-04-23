@@ -19,7 +19,7 @@ if (isset($_SESSION['redirect'])) {
   <meta name="author" content="">
 
 
-  <title>UEB Login</title>
+  <title>Chibcha Web Login</title>
 
   <!-- Custom fonts for this template-->
   <link href="estilos_tp2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
