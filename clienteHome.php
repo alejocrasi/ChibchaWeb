@@ -142,9 +142,9 @@ if (!isset($_SESSION['redirect'])) {
       <div class="sidebar">
         <div class="user-profile">
           <div class="info-wrapper">
-            <h5 class="user-name"><?php echo $_SESSION['nombre'];?></h5><br>
-            <h6 class="display-income"><?php echo $_SESSION['programa']; ?></h6>
-            <h6 class="display-income"><?php echo $_SESSION['semestre']; ?> Semestre</h6>
+            <h5 class="user-name"><?php echo $_SESSION['nom_cliente'];?></h5><br>
+            <h6 class="display-income"><?php echo $_SESSION['correo_cliente']; ?></h6>
+            <h6 class="display-income">Menbrecia <?php echo $_SESSION['tipo_membresia']; ?> </h6>
           </div>
         </div>
         <ul class="navigation-menu">

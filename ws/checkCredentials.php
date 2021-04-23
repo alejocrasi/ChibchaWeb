@@ -23,15 +23,18 @@ while($stmt -> fetch()) {
     $aux=1;
     
         session_start();
-        $_SESSION['id']=$id;
-        $_SESSION['nombre']=$nombre;
-        $_SESSION['correo']=$correo;
+        $_SESSION['cod_cliente']=$cod_cliente;
+        $_SESSION['nom_cliente']=$nom_cliente;
+        $_SESSION['ape_cliente']=$ape_cliente;
         $_SESSION['numero_solicitudes']=$numero_solicitudes;
-        $_SESSION['programa']=$programa;
-        $_SESSION['semestre']=$semestre;
-        $_SESSION['cod_hv']=$cod_hv;
-        $_SESSION['estado']=$estado;
-        $_SESSION['foto']='default-user-image.png';
+        $_SESSION['cc_cliente']=$cc_cliente;
+        $_SESSION['dir_cliente']=$dir_cliente;
+        $_SESSION['correo_cliente']=$correo_cliente;
+        $_SESSION['password_cliente']=$password_cliente;
+        $_SESSION['tarjeta_credito']=$tarjeta_credito;
+        $_SESSION['tipo_membresia']=$tipo_membresia;
+        $_SESSION['plan_pago']=$plan_pago;
+
         $_SESSION['redirect']='studentHome.php';
         $primer_nombre=explode(' ',$nombre);
         $response = array(
