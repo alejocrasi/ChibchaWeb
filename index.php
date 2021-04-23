@@ -98,6 +98,7 @@ function checkGmail(value){
         })
     }
 </script>
+
 <?php
 $url_google='';
 if(isset($_GET['code'])){
@@ -168,7 +169,7 @@ if(isset($_GET['code'])){
           type: "POST",
           url: "ws/checkCredentials.php",
           data: $('#form_login').serialize(),
-          success: function (data) {
+          success: function (data) {                        
               console.log(data);
               data = JSON.parse(data);
               if (data["status"]) {
@@ -186,6 +187,7 @@ if(isset($_GET['code'])){
                 '                                <span aria-hidden="true">&times;</span>\n' +
                 '                            </button>\n' +
                 '                        </div>');
+                console.log(data);
                 }else{
                   Swal.fire(
 								  data['comment'],

@@ -12,21 +12,22 @@ $fecha = date('Y-m-d');
 $aux= 0;
 $response = [];
 
-$query = "SELECT c.correo_cliente, c.nom_cliente from cliente c where c.correo_cliente ='".$username."' and c.password_cliente='".$pass."'";
+$query = "SELECT cod_cliente, c.nom_cliente, c.ape_cliente, c.cc_cliente, c.dir_cliente, c.correo_cliente, c.password_cliente, c.tarjeta_credito,c.tipo_membresia, c.plan_pago 
+from cliente c where c.correo_cliente ='".$username."' and c.password_cliente='".$pass."'";
 $stmt = $mysqli->prepare($query);
 $stmt -> execute();
 $stmt -> bind_result($cod_cliente,$nom_cliente,$ape_cliente,
 $cc_cliente,$dir_cliente,$correo_cliente,$password_cliente,$tarjeta_credito,
 $tipo_membresia, $plan_pago );
 
+
 while($stmt -> fetch()) {
     $aux=1;
-    
+        
         session_start();
         $_SESSION['cod_cliente']=$cod_cliente;
         $_SESSION['nom_cliente']=$nom_cliente;
         $_SESSION['ape_cliente']=$ape_cliente;
-        $_SESSION['numero_solicitudes']=$numero_solicitudes;
         $_SESSION['cc_cliente']=$cc_cliente;
         $_SESSION['dir_cliente']=$dir_cliente;
         $_SESSION['correo_cliente']=$correo_cliente;
@@ -34,18 +35,22 @@ while($stmt -> fetch()) {
         $_SESSION['tarjeta_credito']=$tarjeta_credito;
         $_SESSION['tipo_membresia']=$tipo_membresia;
         $_SESSION['plan_pago']=$plan_pago;
+        $_SESSION['redirect']='clienteHome.php';
 
-        $_SESSION['redirect']='studentHome.php';
-        $primer_nombre=explode(' ',$nombre);
+        $primer_nombre=explode(' ',$nom_cliente);
         $response = array(
             'comment' => 'Bienvenido '.$primer_nombre[0].'!!',
             'redirect' =>'clienteHome.php',
             'status' => true
         );
     
-        $sql="CALL p_update_login(".$id.",1)";
+        $sql="CALL p_update_login(".$cod_cliente.",1)";
         $mysqli2->query($sql);
         $mysqli2->close();
+        
+    
+    
+
     
     
     
@@ -53,59 +58,57 @@ while($stmt -> fetch()) {
 $stmt->close();
 
 if($aux==0){
-    $query = "SELECT e.cod_empresa, e.NIT, e.nombre, e.correo_empresa, e.logo, e.estado from EMPRESA e where e.correo_empresa ='".$username."' and e.password_empresa='".$pass."'";
+    $query = "SELECT c.cod_distribuidor, c.razon_social, c.NIT_distribuidor, c.categoria_distribuidor, c.correo_distribuidor, c.password_distribuidor, c.plan_pago_distribuidor
+    from distribuidor c where c.correo_distribuidor ='".$username."' and c.password_distribuidor='".$pass."'";
     $stmt = $mysqli->prepare($query);
     $stmt -> execute();
-    $stmt -> bind_result($id,$nit,$nombre,$correo,$logo,$estado);
+    $stmt -> bind_result($cod_distribuidor,$razon_social,$NIT_distribuidor,$categoria_distribuidor,
+    $correo_distribuidor,$password_distribuidor,$plan_pago_distribuidor);
     while($stmt -> fetch()) {
         $aux=1;
-        if($estado!='APROBADO'){
-            $msg=($estado=='REGISTRADO') ? ' nuestra universidad se preocupa por sus estudiantes, cuando se haya validado tu solicitud te avisaremos por correo, para que puedes ingresar a la plataforma!!' : 'tu verificación ha sido rechazada ingresa al siguiente link para enviar nuevamente tu camara de comercio';
-            $redirect=($estado=='REGISTRADO') ? 'index.php' :'verifyCompany.php?id='.base64_encode($nit);
-
-            $primer_nombre=explode(' ',$nombre);
-            $response = array(
-                'comment' => 'Hola '.$primer_nombre[0].' '.$msg,
-                'redirect' =>$redirect,
-                'status' => false
-            );
-        }else{
+        
             session_start();
-            $_SESSION['id']=$id;
-            $_SESSION['nombre']=$nombre;
-            $_SESSION['correo']=$correo;
-            $_SESSION['nit']=$nit;
-            $_SESSION['logo']=$logo;
-            $_SESSION['estado']=$estado;
-            $_SESSION['redirect']='companyHome.php';
-            $primer_nombre=explode(' ',$nombre);
+            $_SESSION['cod_distribuidor']=$cod_distribuidor;
+            $_SESSION['razon_social']=$razon_social;
+            $_SESSION['NIT_distribuidor']=$NIT_distribuidor;
+            $_SESSION['categoria_distribuidor']=$categoria_distribuidor;
+            $_SESSION['correo_distribuidor']=$correo_distribuidor;
+            $_SESSION['password_distribuidor']=$password_distribuidor;
+            $_SESSION['plan_pago_distribuidor']=$plan_pago_distribuidor;
+            $_SESSION['redirect']='distribuidoresHome.php';
+            $primer_nombre=explode(' ',$razon_social);
             $response = array(
                 'comment' => 'Bienvenido '.$primer_nombre[0].'!!',
-                'redirect' =>'companyHome.php',
+                'redirect' =>'distribuidoresHome.php',
                 'status' => true
             );
-            $sql="CALL p_update_login(".$id.",2)";
+            $sql="CALL p_update_login(".$cod_distribuidor.",2)";
             $mysqli2->query($sql);
             $mysqli2->close();
-        }
+        
     }
     $stmt->close();
 }
+
+
 if($aux==0){
-    $query = "SELECT a.id, a.nombre from ADMINISTRADOR a where a.username ='".$username."' and a.password='".$pass."'";
+    $query = "SELECT c.cod_empleado, c.nom_empleado, c.correo_empleado, c.password_empleado from empleado c where c.correo_empleado ='".$username."' and c.password_empleado='".$pass."'" ;
     $stmt = $mysqli->prepare($query);
     $stmt -> execute();
-    $stmt -> bind_result($id,$nombre);
+    $stmt -> bind_result($cod_empleado,$nom_empleado,$correo_empleado,$password_empleado);
     while($stmt -> fetch()) {
         session_start();
         $aux=1;
-        $_SESSION['id']=$id;
-        $_SESSION['nombre']=$nombre;
-        $_SESSION['redirect']='adminHome.php';
-        $primer_nombre=explode(' ',$nombre);
+        $_SESSION['cod_empleado']=$cod_empleado;
+        $_SESSION['nom_empleado']=$nom_empleado;
+        $_SESSION['correo_empleado']=$correo_empleado;
+        $_SESSION['password_empleado']=$password_empleado;
+
+        $_SESSION['redirect']='empleadoHome.php';
+        $primer_nombre=explode(' ',$nom_empleado);
         $response = array(
             'comment' => 'Bienvenido '.$primer_nombre[0].'!!',
-            'redirect' =>'adminHome.php',
+            'redirect' =>'empleadoHome.php',
             'status' => true
         );
     }
