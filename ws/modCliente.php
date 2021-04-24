@@ -32,25 +32,35 @@ function removeAccents($input){
 
 $response = [];
 
-$razon_social    = $_POST["razon_social"];
-$NIT_distribuidor= $_POST["NIT_distribuidor"];
-$categoria_distribuidor= $_POST["categoria_distribuidor"];
-$correo_distribuidor= $_POST["correo_distribuidor"];
-$password_distribuidor= $_POST["password_distribuidor"];
-$plan_pago_distribuidor= $_POST["plan_pago_distribuidor"];
+$cod_cliente  = $_POST["cod_cliente"];
+$nom_cliente = $_POST["nom_cliente"];
+$ape_cliente = $_POST["ape_cliente"];
+$cc_cliente = $_POST["cc_cliente"];
+$dir_cliente = $_POST["dir_cliente"];
+$correo_cliente = $_POST["correo_cliente"];
+$password_cliente = $_POST["password_cliente"];
+$tarjeta_credito = $_POST["tarjeta_credito"];
+$tipo_membresia = $_POST["tipo_membresia"];
+$plan_pago = $_POST["plan_pago"];
 
 
 
-$sql = "UPDATE distribuidor  SET  razon_social='".$razon_social."',  categoria_distribuidor='".$categoria_distribuidor."',
-                                  correo_distribuidor='".$correo_distribuidor."', password_distribuidor='".$password_distribuidor."' , plan_pago_distribuidor='".$plan_pago_distribuidor."'
-        WHERE NIT_distribuidor = '".$NIT_distribuidor."' ;";
+$sql = "UPDATE cliente  SET  nom_cliente='".$nom_cliente."',  ape_cliente='".$ape_cliente."',
+                             cc_cliente='".$cc_cliente."', dir_cliente='".$dir_cliente."' , correo_cliente='".$correo_cliente."',
+                             password_cliente='".$password_cliente."', tarjeta_credito='".$tarjeta_credito."' ,
+                             tipo_membresia='".$tipo_membresia."', plan_pago='".$plan_pago."' 
+        WHERE cod_cliente = '".$cod_cliente."' ;";
 
-$_SESSION['razon_social']=$razon_social;
-$_SESSION['NIT_distribuidor']=$NIT_distribuidor;
-$_SESSION['categoria_distribuidor']=$categoria_distribuidor;
-$_SESSION['correo_distribuidor']=$correo_distribuidor;
-$_SESSION['password_distribuidor']=$password_distribuidor;
-$_SESSION['plan_pago_distribuidor']=$plan_pago_distribuidor;
+        $_SESSION['cod_cliente']=$cod_cliente;
+        $_SESSION['nom_cliente']=$nom_cliente;
+        $_SESSION['ape_cliente']=$ape_cliente;
+        $_SESSION['cc_cliente']=$cc_cliente;
+        $_SESSION['dir_cliente']=$dir_cliente;
+        $_SESSION['correo_cliente']=$correo_cliente;
+        $_SESSION['password_cliente']=$password_cliente;
+        $_SESSION['tarjeta_credito']=$tarjeta_credito;
+        $_SESSION['tipo_membresia']=$tipo_membresia;
+        $_SESSION['plan_pago']=$plan_pago;
 
 if (!$mysqli->query($sql)) {
     if($mysqli->errno == 1062){

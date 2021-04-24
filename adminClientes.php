@@ -98,7 +98,7 @@ if (!isset($_SESSION['redirect'])) {
                         '<td>' + data[i]["tipo_membresia"] + '</td>' +
                         '<td>' + data[i]["plan_pago"] + '</td>' +
               
-                        '<td><a href="editCliente.php?correo=' + data[i]["correo_empleado"] +'">'+'<button type="button" rel=tooltip" class="btn btn-info btn-rounded">editar ' +  
+                        '<td><a href="editCliente.php?cod_cliente=' + data[i]["cod_cliente"] +'">'+'<button type="button" rel=tooltip" class="btn btn-info btn-rounded">editar ' +  
                         '</tr>';
            }
           
