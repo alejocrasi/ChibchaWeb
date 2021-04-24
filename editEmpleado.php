@@ -10,7 +10,7 @@ if (!isset($_SESSION['redirect'])) {
     header('Location: index.php');
 }
 
-$nit=$_GET["nit"];
+$correo=$_GET["correo"];
 
 ?>
 <!DOCTYPE html>
@@ -68,136 +68,21 @@ $nit=$_GET["nit"];
 
 <script>
    window.onload=function(){
-    dropify = $('.dropify').dropify({
-      messages: {
-        'default': 'Arrastra el archivo o haz click aqui',
-        'replace': 'Arrastra o clikea para remplazar',
-        'remove':  'Quitar',
-        'error':   'Ooops, algo a salido mal.'
-    }
-    });
    
-    getCompanies();
-
+    getEmpleados();
   };
-  function verifyPass(){
-    var pass=document.getElementById('pass').value;
-    var verify=document.getElementById('passnew').value;
-    var passold=document.getElementById('passold').value;
-    console.log(pass+' '+verify);
-    if(pass==verify && pass!='' && verify!=''){
-      $('#alert_pw').css('display','none');
-      return true;
-    }
-    else if(pass!=verify && pass!='' && verify!=''){
-      $('#alert_pw').css('display','block');
-      $('#alert_ex').css('display','none');
-    }
-    else if(pass=='' || pass=='' || verify==''){
-      $('#alert_va').css('display','block');
-      $('#alert_ex').css('display','none');
-    }else{
-      $('#alert_pw').css('display','none');
-      $('#alert_va').css('display','none');
-      $('#alert_ex').css('display','none');
-    }
-    return false;
-  }
+ 
 
   function ocultar(){
     $('#alert_pwo').css('display','none');
   }
-   function modAdmin(pa){
-    var pass=document.getElementById('pass').value;
-    if(verifyPass() && pa){
 
+
+  function modEmpresa(){
+    console.log("entro");
       $.ajax({
         type: "POST",
-        url: "ws/modAdmin.php",
-        data:{
-                'pass':pass,
-            },
-        success: function (data) {
-            console.log(data);
-            data = JSON.parse(data);
-            if (data["status"] == 1) {
-              $('.dropify-clear').click();
-              Swal.fire(
-                  'Bien hecho!',
-                  'Se ha modificado la contraseña!!!',
-                  'success'
-                ).then(function(){
-                  $('#alert_pw').css('display','none');
-                  $('#alert_va').css('display','none');
-                  $('#alert_pwo').css('display','none');
-                  $("#seePassword").modal("hide");
-                })
-            }else{
-              if(data['error'] == 1062){
-                Swal.fire(
-                  'Error!',
-                  data['error'],
-                  'error'
-                )
-              }
-            }
-        },
-        error: function (data) {
-            console.log(data);
-        },
-    });
-    }
-    else{
-
-    }
-  }
-     function passCheck(){
-     var passold=document.getElementById('passold').value;
-     trigger=true
-     if(trigger){
-      $.ajax({
-        type: "POST",
-        url: "ws/currentpassCheck.php",
-        success: function (data) {
-            data = JSON.parse(data);
-            data = data["passes"];
-            if(passold == data[0]["password"]){
-              modAdmin(true);
-              trigger=false;
-            }
-            else{
-              $('#alert_ex').css('display','none');
-              $('#alert_pwo').css('display','block');
-              trigger=false;
-            }
-
-        },
-        error: function (data) {
-            console.log(data);
-        },
-    });
-    }
-  }
-  function verifyPass2(){
-    var pass=document.getElementById('pass_1').value;
-    var verify=document.getElementById('verify_1').value;
-    console.log('entra? verify');
-    if(pass==verify && pass!='' && verify!=''){
-      $('#alert_pw_1').css('display','none');
-      return true;
-    }
-    else if(pass!=verify && pass!='' && verify!=''){
-      $('#alert_pw_1').css('display','block');
-    }else{
-      $('#alert_pw_1').css('display','none');
-    }
-    return false;
-  }
-   function modCompany(){
-    if(verifyPass2()){
-      $.ajax({
-        type: "POST",
-        url: "ws/modCompany.php",
+        url: "ws/modEmpresa.php",
         data: new FormData($('#mod')[0]),
         cache: false,
         contentType: false,
@@ -212,7 +97,7 @@ $nit=$_GET["nit"];
                   'Se ha modificado la empresa de forma exitosa!!!',
                   'success'
                 ).then(function(){
-                  window.location='adminCompany.php';
+                  window.location='adminEmpresa.php';
                 })
             }else{
               if(data['error'] == 1062){
@@ -228,21 +113,20 @@ $nit=$_GET["nit"];
             console.log(data);
         },
     });
-    }
   }
 
-  function getCompanies(){
+  function getEmpleados(){
     $.ajax({
         type: "POST",
-        url: "ws/getCompanies.php",
+        url: "ws/getEmpleados.php",
         success: function (data) {    
         data = JSON.parse(data);    
             if (data["status"] == 1) {
-                data = data["companies"];   
+                data = data["empleados"];   
                 var i=0;
                 var econtro = false;
                 while(econtro==false){
-                  if(data[i]["NIT"]==<?php echo $nit ?>){
+                  if(data[i]["correo_empleado"]==<?php echo $correo ?>){
                    econtro=true;    
 
                   }else{
@@ -252,62 +136,30 @@ $nit=$_GET["nit"];
 
                 var html ='<div class="form-group row showcase_row_area">'+
                           '<div class="col-md-5 showcase_text_area">'+
-                            '<label for="nit">NIT</label>'+
+                            '<label for="nit">Nombre</label>'+
                           '</div>'+
                           '<div class="col-md-20 showcase_content_area">'+
-                            '<input type="text" class="form-control" name="nit" id="nit" value ="'+data[i]["NIT"]+'" readonly style="width:180%;">'+
+                            '<input type="text" class="form-control" name="nombre" id="nombre" value ="'+data[i]["nom_empleado"]+'" readonly style="width:180%;">'+
                           '</div>'+
                         '</div>'+
                         '<div class="form-group row showcase_row_area">'+
                           '<div class="col-md-5 showcase_text_area">'+
-                            '<label for="razonSocial">Razón Social</label>'+
+                            '<label for="correo">Razón Social</label>'+
                           '</div>'+
                           '<div class="col-md-20 showcase_content_area">'+
-                            '<input type="text" class="form-control" id="razonSocial" name="razonSocial" value ="'+data[i]["nombre"]+'" style="width:180%;">'+
+                            '<input type="text" class="form-control" id="correo" name="correo" value ="'+data[i]["correo_empleado"]+'" style="width:180%;">'+
                           '</div>'+
                         '</div>'+
                         '<div class="form-group row showcase_row_area">'+
                           '<div class="col-md-5 showcase_text_area">'+
-                            '<label for="email">Correo</label>'+
+                            '<label for="email">Contraseña</label>'+
                           '</div>'+
                           '<div class="col-md-20 showcase_content_area">'+
-                            '<input type="email" class="form-control" id="email" name="email" value ="'+data[i]["correo_empresa"]+'" style="width:180%;">'+
+                            '<input type="email" class="form-control" id="password" name="password" value ="'+data[i]["password_empleado"]+'" style="width:180%;">'+
                           '</div>'+
                         '</div>'+
-                        '<div class="form-group row showcase_row_area">'+
-                          '<div class="col-md-5 showcase_text_area">'+
-                            '<label for="descrip">Descripción</label>'+
-                          '</div>'+
-                          '<div class="col-md-20 showcase_content_area">'+
-                            '<textarea class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="descrip" name="descrip" required maxlength="1200" style="width:190%;">'+data[i]["descripcion_empresa"]+'</textarea>'+
-                          '</div>'+
-                        '</div>'+
-                        '<div class="alert alert-danger mb-0" role="alert" id="alert_pw_1" style="display:none;width: 70%;text-align: center;margin-left: 25%;"><strong>Error!</strong> Las contraseñas no coinciden</div><br>'+                                         
-                        '<div class="form-group row showcase_row_area">'+
-                          '<div class="col-md-5 showcase_text_area">'+
-                            '<label for="pass">Contraseña</label>'+
-                          '</div>'+
-                          '<div class="col-md-20 showcase_content_area">'+
-                            '<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="pass_1" name="pass_1" required value ="'+data[i]["password_empresa"]+'" onchange="verifyPass2();"  minlength="6" maxlength="12" style="width:180%;">'+
-                          '</div>'+
-                        '</div>'+
-                        '<div class="form-group row showcase_row_area">'+
-                          '<div class="col-md-5 showcase_text_area">'+
-                            '<label for="verify">Verificar contraseña</label>'+
-                          '</div>'+
-                          '<div class="col-md-20 showcase_content_area">'+
-                            ' <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="verify_1" name="verify" required value ="'+data[i]["password_empresa"]+'" onchange="verifyPass2();" maxlength="12" style="width:180%;">'+
-                          '</div>'+
-                        '</div>'+
-                         '<div>'+
-                         '<div class="form-group row showcase_row_area" >'+
-                          '<div class="col-md-5 showcase_text_area">'+
-                            '<label for="logo">Logo de la empresa:</label>'+
-                          '</div>'+
-                          '<div class="col-md-5 showcase_content_area">'+                  
-                            '<input type="file" class="form-control-file dropify" name="logo" id="logo" accept=".png,.jpeg,.jpg" data-allowed-file-extensions="png jpeg jpg" data-default-file="assets/images/logos/'+data[i]["logo"]+'">'+
-                          '</div>'+
-                         '</div>'+
+                        
+                        
                        '</div>';
                       
 
@@ -356,10 +208,7 @@ $nit=$_GET["nit"];
                   <h6 class="dropdown-title">Opciones</h6>
                 </div>
                 <div class="dropdown-body border-top pt-0">
-                  <a class="dropdown-grid" data-target="#seePassword" data-toggle="modal">
-                    <i class="grid-icon mdi mdi-security mdi-2x"></i>
-                    <span class="grid-tittle">Cambiar contraseña</span>
-                  </a>
+        
                   <a class="dropdown-grid" href="logout.php">
                     <i class="grid-icon mdi mdi-exit-to-app mdi-2x"></i>
                     <span class="grid-tittle">Cerrar sesión</span>
@@ -385,7 +234,7 @@ $nit=$_GET["nit"];
           </div>
         </div>
         <ul class="navigation-menu">
-          <li class="nav-category-divider">Menu</li>
+        <li class="nav-category-divider">Menu</li>
           <li>
             <a href="adminHome.php">
               <span class="link-title">Estadisticas</span>
@@ -394,27 +243,21 @@ $nit=$_GET["nit"];
           </li>
           
           <li>
-            <a href="adminCompany.php">
-              <span class="link-title">Empresas</span>
+            <a href="adminEmpleados.php">
+              <span class="link-title">Gestion de empleados</span>
               <i class="mdi mdi mdi-bookmark-plus link-icon"></i>
             </a>
           </li>
           <li>
-            <a href="adminStudents.php">
-              <span class="link-title">Estudiantes</span>
+            <a href="adminClientes.php">
+              <span class="link-title">Gestion de clientes</span>
               <i class="mdi mdi mdi-human-greeting link-icon"></i>
             </a>
           </li>
           <li>
-            <a href="adminVacant.php">
-              <span class="link-title">Vacantes</span>
+            <a href="adminDistribuidores.php">
+              <span class="link-title">Gestion de distribuidores</span>
               <i class="mdi mdi-clipboard-outline link-icon"></i>
-            </a>
-          </li>
-          <li>
-          <a href="assets/manuales/Manual Administrador.pdf" target="blank">
-              <span class="link-title">Manual Administrador</span>
-              <i class="mdi mdi-file-pdf link-icon"></i>
             </a>
           </li>
                          
@@ -426,7 +269,7 @@ $nit=$_GET["nit"];
           <div class="viewport-header">
             <div class="row">
               <div class="col-12 py-5">
-                <h4>Empresa</h4>
+                <h4>Empleado</h4>
                 <div class="form-group">
                                                            
 
@@ -437,10 +280,10 @@ $nit=$_GET["nit"];
             <div class="row">              
               <div class="col-lg-10 equel-grid">
                 <div class="grid">
-                  <p class="grid-header">Editar empresa</p>
+                  <p class="grid-header">Editar Empleado</p>
                    <div class="grid-body">
                     <div class="item-wrapper">
-                      <form id="mod" action="javascript:void(0);" onsubmit="modCompany();">
+                      <form id="mod" action="javascript:void(0);" onsubmit="modEmpresa();">
                           <div id="insertar">
 
                           </div>     
@@ -448,7 +291,7 @@ $nit=$_GET["nit"];
                             <br>
                               <div class="form-group row showcase_row_area" style="float:right;" >
                                 <div>                  
-                                  <a href="adminCompany.php" class="btn btn-warning" style="margin-right:15px;">Cancelar</a>
+                                  <a href="adminEmpleados.php" class="btn btn-warning" style="margin-right:15px;">Cancelar</a>
                                 </div>
                                 <div>
                                   <button type="submit" class="btn btn-success">Aceptar</button>
@@ -464,34 +307,7 @@ $nit=$_GET["nit"];
               </div>
             </div>   
           </div>
-          <div class="modal fade" id="seePassword" tabindex="-1" role="dialog" aria-labelledby="addFavorite_modalLabel" aria-hidden="true">
-        <div class="modal-dialog ui-corner-all" role="document">
-            <div class="modal-content" id="modalBody" name="modalBody">
-                <div class="modal-body">
-                <div class="form-group">
-                  <div class="alert alert-success mb-0" role="alert" id="alert_ex" style="display:none;"><strong>Exito!</strong> Se cambio la contraseña!</div>
-                  <div class="alert alert-danger mb-0" role="alert" id="alert_va" style="display:none;"><strong>Error!</strong> Uno o mas de los campos estan vacios!</div>
-                  <div class="alert alert-danger mb-0" role="alert" id="alert_pwo" style="display:none;"><strong>Error!</strong> Contraseña equivocada!</div>
-                    <center>Ingrese su contraseña</center><br>
-                    <input onchange="ocultar();" type="password" id="passold" name="passold" class="form-control" style="max-width:70%;width:70%; margin-left:15%; text-align:center;">
-                </div>
-                <div class="alert alert-danger mb-0" role="alert" id="alert_pw" style="display:none;"><strong>Error!</strong> Las contraseñas no coinciden</div>
-                <div class="form-group">
-                    <center>Ingrese su nueva contraseña</center><br>
-                    <input type="password" id="passnew" name="passnew" class="form-control" style="max-width:70%;width:70%; margin-left:15%; text-align:center;">
-                </div>
-                <div class="form-group">
-                    <center>Confirme su contraseña</center><br>
-                    <input type="password" id="pass" name="pass" class="form-control" style="max-width:70%;width:70%; margin-left:15%; text-align:center;" onchange="verifyPass();">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-success" onclick="passCheck();">Confirmar</button>
-            </div>
-            </div>
-        </div>
-    </div>
+        
          
         <!-- content viewport ends -->
         <!-- partial:../partials/_footer.html -->
