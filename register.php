@@ -249,7 +249,7 @@ body {
 								  'disfruta de la plataforma!!!',
 								  'success'
 								).then(function(){
-                  window.location='index.php';
+                  window.location='login.php';
                 })
             }else{
               if(data['error'] ==1062){
@@ -272,7 +272,7 @@ body {
     if(verifyPassCp()){
       $.ajax({
         type: "POST",
-        url: "ws/registerCompany.php",
+        url: "ws/registrarDistribuidor.php",
         data:new FormData($('#f_emp')[0]),
         cache: false,
         contentType: false,
@@ -284,10 +284,10 @@ body {
               $('.dropify-clear').click();
               Swal.fire(
 								  'Bien hecho!',
-								  'Se han enviado a tu correo las credenciales para que accedas a tu cuenta y disfruta de la plataforma!!!',
+								  'disfruta de la plataforma!!!',
 								  'success'
 								).then(function(){
-                  window.location='index.php';
+                  window.location='login.php';
                 })
             }else{
               if(data['error'] == 1062){
@@ -367,7 +367,7 @@ body {
               <label for="plan_pago">plan de pago</label>
               <div class="input-group input-group-sm mb-3">
                 <select name="plan_pago" class="form-control" id="plan_pago" required>
-                <option value="">Seleccione la membresía que deseas inscribirte</option>              
+                <option value="">Seleccione el plan de pago</option>              
                   <option value="mensual">Mensual</option>
                   <option value="trimestral">trimestral</option>
                   <option value="semestral">semestral</option>
@@ -390,32 +390,40 @@ body {
           <div id="form_empresa" name="form_empresa" style="display:none;" enctype="multipart/form-data">
             <a href="javascript:void(0);" class="btn btn-success" style="float:left;" onclick="formAtWelcome();">Volver</a>
             <form id="f_emp" action="javascript:void(0);" onsubmit="regCompany();">
-              <center><h3 style="margin-right: 10%;">Formulario de registro Empresas</h3></center><br>
-              <div class="form-group">
-                  <label for="photo">Logo de la empresa:</label>
-                  <input type="file" class="form-control-file dropify" name="logo" id="logo" accept=".png,.jpeg,.jpg" data-allowed-file-extensions="png jpeg jpg" required>
-              </div>
+              <center><h3 style="margin-right: 10%;">Formulario de registro Distribuidores</h3></center><br>
+              
               <label>Razon social</label>
               <div class="input-group input-group-sm mb-3">
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="nameCp" name="nameCp" required placeholder="Digita la razon social de la empresa" maxlength="50">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="razon_sacial" name="razon_sacial" required placeholder="Digita la razon social " maxlength="50">
               </div>
               <label>NIT</label>
               <div class="input-group input-group-sm mb-3">
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="nitCp" name="nitCp" required placeholder="Digita el NIT de la empresa" maxlength="50">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="NIT_distribuidor" name="NIT_distribuidor" required placeholder="Digita el NIT " maxlength="50">
               </div>
               <div class="alert alert-danger mb-0" role="alert" id="alert_mailCp" style="display:none;"></div>
+              <label>categoria </label>
+              <div class="input-group input-group-sm mb-3">
+                <select name="plan_pago" class="form-control" id="categoria_distribuidor" required>
+                  <option value="basica">Basica</option>              
+                    
+                  </select>               
+              </div>
+              
               <label>Correo</label>
               <div class="input-group input-group-sm mb-3">
-                <input type="email" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required id="mailCp" name="mailCp" placeholder="Ingresa tu correo" maxlength="50">
+                <input type="email" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required id="correo_distribuidor" name="correo_distribuidor" placeholder="Ingresa tu correo" maxlength="50">
               </div>
-              <label>Descripción</label>
+              <label for="plan_pago_distribuidor">plan de pago</label>
               <div class="input-group input-group-sm mb-3">
-                <textarea class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="desCp" name="desCp" required placeholder="Danos una breve descripción de tu empresa" maxlength="1200"></textarea>
+                <select name="plan_pago_distribuidor" class="form-control" id="plan_pago_distribuidor" required>
+                <option value="">Seleccione el plan de pago</option>              
+                  <option value="mensual">Mensual</option>
+                  <option value="trimestral">trimestral</option>
+                  <option value="semestral">semestral</option>
+                  <option value="anual">anual</option>
+                </select>
               </div>
-              <div class="form-group">
-                  <label for="photo">Camara de comercio de la empresa:</label>
-                  <input type="file" class="form-control-file dropify" name="cc" id="cc" accept=".pdf" data-allowed-file-extensions="pdf" required>
-              </div>
+              
               <div class="alert alert-danger mb-0" role="alert" id="alert_pwCp" style="display:none;"><strong>Error!</strong> Las contraseñas no coinciden</div>
               <label>Contraseña</label>
               <div class="input-group input-group-sm mb-3">
@@ -430,7 +438,7 @@ body {
           </div>
           <!-- Este div se desplega, para seleccionar si es un estudiante o una empresa -->
           <div id="form_bienvenida" class="text-center">
-            <a href="index.php" class="btn btn-warning" style="float:left;">Volver</a><br>
+            <a href="login.php" class="btn btn-warning" style="float:left;">Volver</a><br>
             <h5 class="card-title">Bienvenido al formulario de registro</h5>
             <p class="card-text">¿Quien eres?</p><br>
             <center><table>
