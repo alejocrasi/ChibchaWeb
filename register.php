@@ -186,8 +186,8 @@ body {
   
   function verifyName(){
     var correo=document.getElementById('nom_cliente').value;
-    var array=correo.split(" ");
-    if(array.length>2){
+    
+    if(correo!=null){
       $('#alert_name').css('display','none');
       return true;
     }else{
@@ -212,7 +212,7 @@ body {
   function verifDir(){
     var dir =document.getElementById('dir_cliente').value;
     
-    if(array.length<=20 ){
+    if(dir.length<=20 ){
       $('#alert_dir').css('display','none');
       return true;
     }else{
@@ -223,8 +223,8 @@ body {
   }
   function verifyTarjeta(){
     var cc=document.getElementById('tarjeta_credito').value;
-    var array=cc.split(" ");
-    if(array.length==16){
+    
+    if(cc.length==16){
       $('#alert_tarjeta').css('display','none');
       return true;
     }else{
@@ -242,10 +242,11 @@ body {
         data:$('#f_est').serialize(),
         success: function (data) {
             data = JSON.parse(data);
+            console.log(data);
             if (data["status"] == 1) {
               Swal.fire(
 								  'Bien hecho!',
-								  'Se han enviado a tu correo las credenciales, activa tu cuenta y disfruta de la plataforma!!!',
+								  'disfruta de la plataforma!!!',
 								  'success'
 								).then(function(){
                   window.location='index.php';
@@ -254,7 +255,7 @@ body {
               if(data['error'] ==1062){
                 Swal.fire(
 								  'Error!',
-								  'Ya se encuentra registrado en la plataforma!!!',
+								  'El correo Ya se encuentra registrado en la plataforma!!!',
 								  'error'
 								)
               }

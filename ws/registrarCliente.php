@@ -18,7 +18,8 @@ $tipo_membresia = $_POST["tipo_membresia"];
 $plan_pago = $_POST["plan_pago"];
 
 $response = [];
-$sql = "CALL p_add_student('".$name."', '".$pass."', '".$mail."', ".$program.")";
+$sql = "INSERT INTO `cliente`(`cod_cliente`,`nom_cliente`, `ape_cliente`, `cc_cliente`, `dir_cliente`, `correo_cliente`, `password_cliente`, `tarjeta_credito`, `tipo_membresia`, `plan_pago`) 
+        VALUES (0, '".$nom_cliente."' ,'".$ape_cliente."','".$cc_cliente."','".$dir_cliente."','".$correo_cliente."','".$password_cliente."','".$tarjeta_credito."','".$tipo_membresia."','".$plan_pago."')";
 if (!$mysqli->query($sql)) {
     if($mysqli->errno == 1062){
         $response = array(
@@ -32,10 +33,10 @@ if (!$mysqli->query($sql)) {
         );
     }
 }else{
-    $query='SELECT cod_estudiante from ESTUDIANTE where correo_estudiante ="'.$_POST['mail'].'"';
+    $query='SELECT cod_cliente from cliente where correo_cliente ="'.$_POST['correo_cliente'].'"';
     $r=$mysqli->query($query);
     if ($row=$r-> fetch_assoc()) {
-        $id=$row["cod_estudiante"];
+        $id=$row["cod_cliente"];
 
         $response = array(
         'comment' => "Se agregó satisfactoriamente",
@@ -45,29 +46,6 @@ if (!$mysqli->query($sql)) {
         
     }
 }
-
-
-if (!$mysqli->query($sql)) {
-    if($mysqli->errno == 1062){
-        $response = array(
-            'error' => 1062,
-            'status' => 0
-        );
-    }else{
-        $response = array(
-            'error' => "Falló CALL: (" . $mysqli->errno . ") " . $mysqli->error,
-            'status' => 0
-        );
-    }
-}else{
-    $response = array(
-        'comment' => "Se Actualizo satisfactoriamente ".$sql." " ,
-        'status' => 1
-    );
-  
-     
-}
-
 $mysqli->close();
 
 echo json_encode($response);
