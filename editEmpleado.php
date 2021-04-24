@@ -70,6 +70,7 @@ $correo=$_GET["correo"];
    window.onload=function(){
    
     getEmpleados();
+
   };
  
 
@@ -79,7 +80,6 @@ $correo=$_GET["correo"];
 
 
   function modEmpresa(){
-    console.log("entro");
       $.ajax({
         type: "POST",
         url: "ws/modEmpresa.php",
@@ -91,13 +91,14 @@ $correo=$_GET["correo"];
             console.log(data);
             data = JSON.parse(data);
             if (data["status"] == 1) {
+              console.log(data);
               $('.dropify-clear').click();
               Swal.fire(
                   'Bien hecho!',
-                  'Se ha modificado la empresa de forma exitosa!!!',
+                  'Se ha modificado de forma exitosa!!!',
                   'success'
                 ).then(function(){
-                  window.location='adminEmpresa.php';
+                  window.location='adminEmpleados.php';
                 })
             }else{
               if(data['error'] == 1062){
@@ -126,7 +127,7 @@ $correo=$_GET["correo"];
                 var i=0;
                 var econtro = false;
                 while(econtro==false){
-                  if(data[i]["correo_empleado"]==<?php echo $correo ?>){
+                  if(data[i]["correo_empleado"]=='<?php echo $correo ?>'){
                    econtro=true;    
 
                   }else{
@@ -135,27 +136,28 @@ $correo=$_GET["correo"];
                 }
 
                 var html ='<div class="form-group row showcase_row_area">'+
+                            '<input type="hidden"  name="cod_empleado" id="cod_empleado" value ="'+data[i]["cod_empleado"]+'" ">'+
                           '<div class="col-md-5 showcase_text_area">'+
                             '<label for="nit">Nombre</label>'+
                           '</div>'+
                           '<div class="col-md-20 showcase_content_area">'+
-                            '<input type="text" class="form-control" name="nombre" id="nombre" value ="'+data[i]["nom_empleado"]+'" readonly style="width:180%;">'+
+                            '<input type="text" class="form-control" name="nombre" id="nombre" value ="'+data[i]["nom_empleado"]+'" style="width:180%;">'+
                           '</div>'+
                         '</div>'+
                         '<div class="form-group row showcase_row_area">'+
                           '<div class="col-md-5 showcase_text_area">'+
-                            '<label for="correo">Razón Social</label>'+
+                            '<label for="email">Correo</label>'+
                           '</div>'+
                           '<div class="col-md-20 showcase_content_area">'+
-                            '<input type="text" class="form-control" id="correo" name="correo" value ="'+data[i]["correo_empleado"]+'" style="width:180%;">'+
+                            '<input type="email" class="form-control" id="correo" name="correo" value ="'+data[i]["correo_empleado"]+'" style="width:180%;">'+
                           '</div>'+
                         '</div>'+
                         '<div class="form-group row showcase_row_area">'+
                           '<div class="col-md-5 showcase_text_area">'+
-                            '<label for="email">Contraseña</label>'+
+                            '<label for="text">Contraseña</label>'+
                           '</div>'+
                           '<div class="col-md-20 showcase_content_area">'+
-                            '<input type="email" class="form-control" id="password" name="password" value ="'+data[i]["password_empleado"]+'" style="width:180%;">'+
+                            '<input type="text" class="form-control" id="password" name="password" value ="'+data[i]["password_empleado"]+'" style="width:180%;">'+
                           '</div>'+
                         '</div>'+
                         
@@ -230,7 +232,7 @@ $correo=$_GET["correo"];
             <img class="profile-img img-lg rounded-circle" src="assets\images\profile\users\logoAdmin.jpg" alt="profile image">
           </div>
           <div class="info-wrapper">
-            <p class="user-name"><?php echo $_SESSION['nombre'];?></p>
+            <p class="user-name"><?php echo $_SESSION['user_admin'];?></p>
           </div>
         </div>
         <ul class="navigation-menu">
@@ -285,6 +287,7 @@ $correo=$_GET["correo"];
                     <div class="item-wrapper">
                       <form id="mod" action="javascript:void(0);" onsubmit="modEmpresa();">
                           <div id="insertar">
+                          
 
                           </div>     
                           <div >

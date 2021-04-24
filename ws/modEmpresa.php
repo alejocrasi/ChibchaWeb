@@ -32,11 +32,12 @@ function removeAccents($input){
 
 $response = [];
 
+$cod_empleado= $_POST["cod_empleado"];
 $nom_empleado= $_POST["nombre"];
 $correo_empleado= $_POST["correo"];
 $password_empleado= $_POST["password"];
 
-$sql = "UPDATE empleado  SET  nom_empleado='".$nom_empleado."', correo_empleado='".$correo_empleado."' , password_empleado='".$password_empleado."' WHERE correo_empleado = '".$correo_empleado."' ;";
+$sql = "UPDATE empleado  SET  nom_empleado='".$nom_empleado."', correo_empleado='".$correo_empleado."' , password_empleado='".$password_empleado."' WHERE empleado.cod_empleado = '".$cod_empleado."' ;";
 $_SESSION['nom_empleado']=$nom_empleado;
 $_SESSION['correo_empleado']=$correo_empleado;
 if (!$mysqli->query($sql)) {
@@ -53,7 +54,7 @@ if (!$mysqli->query($sql)) {
     }
 }else{
     $response = array(
-        'comment' => "Se Actualizo satisfactoriamente",
+        'comment' => "Se Actualizo satisfactoriamente ".$sql." " ,
         'status' => 1
     );
   
