@@ -91,9 +91,13 @@ body {
 	width: 100%;
 	height: 1px;
 
-	background: green;
+	background: red;
 }
-
+.btn-success {
+    color: #fff;
+    background-color: #6b0000;
+    border-color: #1cc88a;
+}
 	.section-header__title {
 		position: relative;
 		z-index: 2;
@@ -122,29 +126,8 @@ body {
         'error':   'Ooops, algo a salido mal.'
     }
     });
-    getPrograms();
   };
-  function getPrograms(){
-    $.ajax({
-        type: "POST",
-        url: "ws/getPrograms.php",
-        success: function (data) {
-            data = JSON.parse(data);
-            if (data["status"] == 1) {
-                data = data["programs"];
-                let options = '<option value="">Seleccione el programa al cual perteneces</option>';
-                for(let i in data){
-                    options += '<option value="'+data[i]["cod_programa"]+'">'+data[i]["nom_programa"]+'</option>'
-                }
-                $('#program').select2({ width: '100%' });
-                $('#program').html(options);
-            }
-        },
-        error: function (data) {
-            console.log(data);
-        },
-    })
-  }
+ 
 
   function formAtStud(){
     $('#form_estudiante').css('display','block');
@@ -202,7 +185,7 @@ body {
   }
   
   function verifyName(){
-    var correo=document.getElementById('name').value;
+    var correo=document.getElementById('nom_cliente').value;
     var array=correo.split(" ");
     if(array.length>2){
       $('#alert_name').css('display','none');
@@ -255,7 +238,7 @@ body {
     if(verifyPass() && verifyName() && verifyCC()&& verifyTarjeta()&& verifDir()){
       $.ajax({
         type: "POST",
-        url: "ws/registerUser.php",
+        url: "ws/registrarCliente.php",
         data:$('#f_est').serialize(),
         success: function (data) {
             data = JSON.parse(data);
@@ -341,9 +324,14 @@ body {
             <form id="f_est" action="javascript:void(0);" onsubmit="reg();">
               <center><h3 style="margin-right: 10%;">Registrate</h3></center><br>
               <div class="alert alert-danger mb-0" role="alert" id="alert_name" style="display:none;"></div>
-              <label>Nombre completo</label>
+              <label>Nombre</label>
               <div class="input-group input-group-sm mb-3">
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="nom_cliente" name="nom_cliente" required onchange="verifyName();" placeholder="Digita tu nombre completo" maxlength="50">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="nom_cliente" name="nom_cliente" required onchange="verifyName();" placeholder="Digita tu nombre " maxlength="50">
+              </div>
+              <div class="alert alert-danger mb-0" role="alert" id="alert_name" style="display:none;"></div>
+              <label>Apellido</label>
+              <div class="input-group input-group-sm mb-3">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="ape_cliente" name="ape_cliente" required onchange="verifyName();" placeholder="Digita tu apellido " maxlength="50">
               </div>
               <div class="alert alert-danger mb-0" role="alert" id="alert_correo" style="display:none;"></div>
               <label>Correo </label>
@@ -358,7 +346,7 @@ body {
               <div class="alert alert-danger mb-0" role="alert" id="alert_dir" style="display:none;"></div>
               <label>Direccion</label>
               <div class="input-group input-group-sm mb-3">
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required id="dir_cliente" name="dir_cliente" onchange="verifDir();" placeholder="Ingresa tu cliente" maxlength="50">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required id="dir_cliente" name="dir_cliente" onchange="verifDir();" placeholder="Ingresa tu Direccion" maxlength="50">
               </div>
               <div class="alert alert-danger mb-0" role="alert" id="alert_tarjeta" style="display:none;"></div>
               <label>Tarjeta de credito</label>
@@ -368,11 +356,21 @@ body {
               <label for="tipo_membresia">Tipo de membresia</label>
               <div class="input-group input-group-sm mb-3">
                 <select name="tipo_membresia" class="form-control" id="tipo_membresia" required>
+                  <option value="">Seleccione la membresía que deseas inscribirte</option>              
+                  <option value="platino">PLATINO</option>
+                  <option value="plata">PLATA</option>
+                  <option value="oro">ORO</option>
+
                 </select>
               </div>
               <label for="plan_pago">plan de pago</label>
               <div class="input-group input-group-sm mb-3">
                 <select name="plan_pago" class="form-control" id="plan_pago" required>
+                <option value="">Seleccione la membresía que deseas inscribirte</option>              
+                  <option value="mensual">Mensual</option>
+                  <option value="trimestral">trimestral</option>
+                  <option value="semestral">semestral</option>
+                  <option value="anual">anual</option>
                 </select>
               </div>
               <div class="alert alert-danger mb-0" role="alert" id="alert_password" style="display:none;"><strong>Error!</strong> Las contraseñas no coinciden</div>
