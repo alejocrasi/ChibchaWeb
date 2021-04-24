@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>UEB Registro</title>
+  <title>Registro Chibcha WEB</title>
 
   <!-- Custom fonts for this template-->
   <link href="estilos_tp2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -156,8 +156,13 @@ body {
     $('#f_est')[0].reset();
     $('#f_emp')[0].reset();
     $('#alert_name').css('display','none');
-    $('#alert_pw').css('display','none');
-    $('#alert_mail').css('display','none');
+    $('#alert_cc').css('display','none');
+    $('#alert_dir').css('display','none');
+    $('#alert_correo').css('display','none');
+    $('#alert_password').css('display','none');
+    $('#alert_tarjeta').css('display','none');
+    $('#alert_tipo').css('display','none');
+    $('#alert_plan').css('display','none');
     $('#form_bienvenida').css('display','block');
     $('#form_empresa').css('display','none');
 
@@ -171,13 +176,13 @@ body {
     var pass=document.getElementById('pass').value;
     var verify=document.getElementById('verify').value;
     if(pass==verify && pass!='' && verify!=''){
-      $('#alert_pw').css('display','none');
+      $('#alert_password').css('display','none');
       return true;
     }
     else if(pass!=verify && pass!='' && verify!=''){
-      $('#alert_pw').css('display','block');
+      $('#alert_password').css('display','block');
     }else{
-      $('#alert_pw').css('display','none');
+      $('#alert_password').css('display','none');
     }
     return false;
   }
@@ -195,24 +200,7 @@ body {
     }
     return false;
   }
-  function verifyMail(){
-    var correo=document.getElementById('mail').value;
-    var array=correo.split("@");
-    if(array.length>1){
-      var dominio=array[1];
-      if(dominio=='unbosque.edu.co'){
-        $('#alert_mail').css('display','none');
-        return true;
-      }else{
-        $('#alert_mail').html('<strong>Error!</strong> Debe utilizar el correo institucional');
-        $('#alert_mail').css('display','block');
-      }
-    }else{
-      $('#alert_mail').html('<strong>Error!</strong> Debe ingresar un correo');
-      $('#alert_mail').css('display','block');
-    }
-    return false;
-  }
+  
   function verifyName(){
     var correo=document.getElementById('name').value;
     var array=correo.split(" ");
@@ -225,8 +213,46 @@ body {
     }
     return false;
   }
+
+  function verifyCC(){
+    var cc=document.getElementById('cc_cliente').value;
+    var array=cc.split(" ");
+    if(array.length<=10){
+      $('#alert_cc').css('display','none');
+      return true;
+    }else{
+      $('#alert_cc').html('<strong>Error!</strong> No puden ser más de 10 digitos');
+      $('#alert_cc').css('display','block');
+    }
+    return false;
+  }
+  function verifDir(){
+    var dir =document.getElementById('dir_cliente').value;
+    
+    if(array.length<=20 ){
+      $('#alert_dir').css('display','none');
+      return true;
+    }else{
+      $('#alert_dir').html('<strong>Error!</strong> No puden ser mas de 20 digitos');
+      $('#alert_dir').css('display','block');
+    }
+    return false;
+  }
+  function verifyTarjeta(){
+    var cc=document.getElementById('tarjeta_credito').value;
+    var array=cc.split(" ");
+    if(array.length==16){
+      $('#alert_tarjeta').css('display','none');
+      return true;
+    }else{
+      $('#alert_tarjeta').html('<strong>Error!</strong> Ingrese una tarjeta de credito valida');
+      $('#alert_tarjeta').css('display','block');
+    }
+    return false;
+  }
+
   function reg(){
-    if(verifyPass() && verifyMail() && verifyName()){
+    if(verifyPass() && verifyName() && verifyCC()&& verifyTarjeta()&& verifDir()){
       $.ajax({
         type: "POST",
         url: "ws/registerUser.php",
@@ -298,6 +324,7 @@ body {
 
 </script>
 
+
 <body>
 
   <div class="container">
@@ -312,23 +339,43 @@ body {
           <div id="form_estudiante" name="form_estudiante" style="display:none;">
             <a href="javascript:void(0);" class="btn btn-success" style="float:left;" onclick="formAtWelcome();">Volver</a>
             <form id="f_est" action="javascript:void(0);" onsubmit="reg();">
-              <center><h3 style="margin-right: 10%;">Formulario de registro</h3></center><br>
+              <center><h3 style="margin-right: 10%;">Registrate</h3></center><br>
               <div class="alert alert-danger mb-0" role="alert" id="alert_name" style="display:none;"></div>
               <label>Nombre completo</label>
               <div class="input-group input-group-sm mb-3">
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="name" name="name" required onchange="verifyName();" placeholder="Digita tu nombre completo" maxlength="50">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="nom_cliente" name="nom_cliente" required onchange="verifyName();" placeholder="Digita tu nombre completo" maxlength="50">
               </div>
-              <div class="alert alert-danger mb-0" role="alert" id="alert_mail" style="display:none;"></div>
-              <label>Correo institucional</label>
+              <div class="alert alert-danger mb-0" role="alert" id="alert_correo" style="display:none;"></div>
+              <label>Correo </label>
               <div class="input-group input-group-sm mb-3">
-                <input type="email" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required id="mail" name="mail" onchange="verifyMail();" placeholder="Ingresa tu correo" maxlength="50">
+                <input type="email" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required id="correo_cliente" name="correo_cliente"  placeholder="Ingresa tu correo" maxlength="50">
               </div>
-              <label for="program">Programa academico</label>
+              <div class="alert alert-danger mb-0" role="alert" id="alert_cc" style="display:none;"></div>
+              <label>Cedula</label>
               <div class="input-group input-group-sm mb-3">
-                <select name="program" class="form-control" id="program" required>
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required id="cc_cliente" name="cc_cliente" onchange="verifyCC();" placeholder="Ingresa tu cedula" maxlength="50">
+              </div>
+              <div class="alert alert-danger mb-0" role="alert" id="alert_dir" style="display:none;"></div>
+              <label>Direccion</label>
+              <div class="input-group input-group-sm mb-3">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required id="dir_cliente" name="dir_cliente" onchange="verifDir();" placeholder="Ingresa tu cliente" maxlength="50">
+              </div>
+              <div class="alert alert-danger mb-0" role="alert" id="alert_tarjeta" style="display:none;"></div>
+              <label>Tarjeta de credito</label>
+              <div class="input-group input-group-sm mb-3">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required id="tarjeta_credito" name="tarjeta_credito" onchange="verifyTarjeta();" placeholder="Ingresa tu tarjeta de credito" maxlength="50">
+              </div>
+              <label for="tipo_membresia">Tipo de membresia</label>
+              <div class="input-group input-group-sm mb-3">
+                <select name="tipo_membresia" class="form-control" id="tipo_membresia" required>
                 </select>
               </div>
-              <div class="alert alert-danger mb-0" role="alert" id="alert_pw" style="display:none;"><strong>Error!</strong> Las contraseñas no coinciden</div>
+              <label for="plan_pago">plan de pago</label>
+              <div class="input-group input-group-sm mb-3">
+                <select name="plan_pago" class="form-control" id="plan_pago" required>
+                </select>
+              </div>
+              <div class="alert alert-danger mb-0" role="alert" id="alert_password" style="display:none;"><strong>Error!</strong> Las contraseñas no coinciden</div>
               <label>Contraseña</label>
               <div class="input-group input-group-sm mb-3">
                 <input type="password" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="pass" name="pass" required onchange="verifyPass();" placeholder="Digita tu contraseña" minlength="6" maxlength="12">
@@ -386,7 +433,7 @@ body {
           <div id="form_bienvenida" class="text-center">
             <a href="index.php" class="btn btn-warning" style="float:left;">Volver</a><br>
             <h5 class="card-title">Bienvenido al formulario de registro</h5>
-            <p class="card-text">Para llevar a cabo tu registro dejanos saber que eres!!</p><br>
+            <p class="card-text">¿Quien eres?</p><br>
             <center><table>
                 <tr>
                   <td>
@@ -398,10 +445,10 @@ body {
                 </tr>
                 <tr>
                   <td class="text-center">
-                    Soy una empresa!!
+                    Cliente
                   </td>
                   <td class="text-center">
-                    Soy un estudiante!!
+                    Distribuidor
                   </td>
                 </tr>
             </table></center>
