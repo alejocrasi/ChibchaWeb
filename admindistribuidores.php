@@ -92,7 +92,7 @@ if (!isset($_SESSION['redirect'])) {
                         '<td>' + data[i]["correo_distribuidor"] + '</td>' +
                         '<td>' + data[i]["password_distribuidor"] + '</td>' +
                         '<td>' + data[i]["plan_pago_distribuidor"] + '</td>' +
-                        '<td><a href="editDistribuidor.php?correo=' + data[i]["correo_distribuidor"] +'">'+'<button type="button" rel=tooltip" class="btn btn-info btn-rounded">editar ' +  
+                        '<td><a href="editDistribuidor.php?nit=' + data[i]["NIT_distribuidor"] +'">'+'<button type="button" rel=tooltip" class="btn btn-info btn-rounded">editar ' +  
                         '</tr>';
            }
           
@@ -209,7 +209,7 @@ if (!isset($_SESSION['redirect'])) {
             </a>
           </li>
           <li>
-            <a href="adminDistribuidoes.php">
+            <a href="adminDistribuidores.php">
               <span class="link-title">Gestion de distribuidores</span>
               <i class="mdi mdi-clipboard-outline link-icon"></i>
             </a>
