@@ -166,6 +166,17 @@ include('graficas.php');
               </div>
             </div>
 
+            <div class="col-md-6">
+              <div class="grid">
+                <div class="grid-body">
+                  <h2 class="grid-title">Grafica de Clientes por membresia</h2>
+                  <div class="item-wrapper">
+                    <canvas id="grafica_tipo_clientes" width="600" height="400"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             
 
             

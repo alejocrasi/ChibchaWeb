@@ -81,6 +81,66 @@ function graf() {
     
     }
 
+    if ($("#grafica_tipo_clientes").length) {
+
+$.ajax({
+    type: "POST",
+    url: "ws/getGraficaTipoClientes.php",
+    success: function (data) {  
+    data = JSON.parse(data);   
+    console.log(data);
+        if (data["status"] == 1) {
+            data = data["clientes"];
+            var tipo = new Array();
+            var num = new Array();
+            for (var i = 0; i < data.length; i++) {
+              if(data[i]["tipo_membresia"]){
+                tipo.push(data[i]["tipo_membresia"]);
+              }
+              if(data[i]["num_tipo"]){
+                num.push(data[i]["num_tipo"]);
+              }
+              
+            }  
+                var PieData = {
+                       datasets: [{
+                         data: num,
+                         backgroundColor: chartColors,
+                         borderColor: chartColors,
+                         borderWidth: chartColors
+                       }],
+
+                       // These labels appear in the legend and in the tooltips when hovering different arcs
+                       labels: tipo
+                     };
+                     var PieOptions = {
+                       responsive: true,
+                       animation: {
+                         animateScale: true,
+                         animateRotate: true
+                       }
+                     };
+                     var pieChartCanvas = $("#grafica_tipo_clientes").get(0).getContext("2d");
+                     var pieChart = new Chart(pieChartCanvas, {
+                       type: 'pie',
+                       data: PieData,
+                       options: PieOptions
+                     });
+
+          }
+    },
+    error: function (data) {
+        console.log(data);
+    },
+  })
+
+}
+
+
+
+
+
+
 
 };
 
