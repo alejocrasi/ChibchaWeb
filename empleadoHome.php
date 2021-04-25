@@ -15,7 +15,7 @@ include('graficas.php');
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Admin Home</title>
+    <title>Empleado</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="assets/vendors/iconfonts/mdi/css/materialdesignicons.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.addons.css">
@@ -52,104 +52,12 @@ include('graficas.php');
     graf();
     getData();
   };
-  function verifyPass(){
-    var pass=document.getElementById('pass').value;
-    var verify=document.getElementById('passnew').value;
-    var passold=document.getElementById('passold').value;
-    console.log(pass+' '+verify);
-    if(pass==verify && pass!='' && verify!=''){
-      $('#alert_pw').css('display','none');
-      return true;
-    }
-    else if(pass!=verify && pass!='' && verify!=''){
-      $('#alert_pw').css('display','block');
-      $('#alert_ex').css('display','none');
-    }
-    else if(pass=='' || pass=='' || verify==''){
-      $('#alert_va').css('display','block');
-      $('#alert_ex').css('display','none');
-    }else{
-      $('#alert_pw').css('display','none');
-      $('#alert_va').css('display','none');
-      $('#alert_ex').css('display','none');
-    }
-    return false;
-  }
+  
 
   function ocultar(){
     $('#alert_pwo').css('display','none');
   }
-   function modAdmin(pa){
-    var pass=document.getElementById('pass').value;
-    if(verifyPass() && pa){
-
-      $.ajax({
-        type: "POST",
-        url: "ws/modAdmin.php",
-        data:{
-                'pass':pass,
-            },
-        success: function (data) {
-            console.log(data);
-            data = JSON.parse(data);
-            if (data["status"] == 1) {
-              $('.dropify-clear').click();
-              Swal.fire(
-                  'Bien hecho!',
-                  'Se ha modificado la contraseña!!!',
-                  'success'
-                ).then(function(){
-                  $('#alert_pw').css('display','none');
-                  $('#alert_va').css('display','none');
-                  $('#alert_pwo').css('display','none');
-                  $("#seePassword").modal("hide");
-                })
-            }else{
-              if(data['error'] == 1062){
-                Swal.fire(
-                  'Error!',
-                  data['error'],
-                  'error'
-                )
-              }
-            }
-        },
-        error: function (data) {
-            console.log(data);
-        },
-    });
-    }
-    else{
-
-    }
-  }
-     function passCheck(){
-     var passold=document.getElementById('passold').value;
-     trigger=true
-     if(trigger){
-      $.ajax({
-        type: "POST",
-        url: "ws/currentpassCheck.php",
-        success: function (data) {
-            data = JSON.parse(data);
-            data = data["passes"];
-            if(passold == data[0]["password"]){
-              modAdmin(true);
-              trigger=false;
-            }
-            else{
-              $('#alert_ex').css('display','none');
-              $('#alert_pwo').css('display','block');
-              trigger=false;
-            }
-
-        },
-        error: function (data) {
-            console.log(data);
-        },
-    });
-    }
-  }
+  
   function getData(){
       $.ajax({
         type: "POST",
@@ -206,12 +114,7 @@ include('graficas.php');
                 <div class="dropdown-header">
                   <h6 class="dropdown-title">Opciones</h6>
                 </div>
-                <div class="dropdown-body border-top pt-0">
-                  <a class="dropdown-grid" data-target="#seePassword" data-toggle="modal" class="MainNavText" id="MainNavHelp" 
-                   href="#seePassword">
-                    <i class="grid-icon mdi mdi-security mdi-2x"></i>
-                    <span class="grid-tittle">Cambiar contraseña</span>
-                  </a>
+                
                   <a class="dropdown-grid" href="logout.php">
                     <i class="grid-icon mdi mdi-exit-to-app mdi-2x"></i>
                     <span class="grid-tittle">Cerrar sesión</span>
@@ -233,43 +136,26 @@ include('graficas.php');
             <img class="profile-img img-lg rounded-circle" src="assets\images\profile\users\logoAdmin.jpg" alt="profile image">
           </div>
           <div class="info-wrapper">
-            <p class="user-name"><?php echo $_SESSION['nombre'];?></p>
+            <p class="user-name"><?php echo $_SESSION['nom_empleado'];?></p>
           </div>
         </div>
         <ul class="navigation-menu">
-          <li class="nav-category-divider">Menu</li>
+        <li class="nav-category-divider">Menu</li>
           <li>
-            <a href="adminHome.php">
+            <a href="empleadoHome.php">
               <span class="link-title">Estadisticas</span>
               <i class="mdi mdi-gauge link-icon"></i>
             </a>
           </li>
           
           <li>
-            <a href="adminCompany.php">
-              <span class="link-title">Empresas</span>
+            <a href="consultaTikets.php">
+              <span class="link-title">Consultar Tikets</span>
               <i class="mdi mdi mdi-bookmark-plus link-icon"></i>
             </a>
           </li>
-          <li>
-            <a href="adminStudents.php">
-              <span class="link-title">Estudiantes</span>
-              <i class="mdi mdi mdi-human-greeting link-icon"></i>
-            </a>
-          </li>
-          <li>
-            <a href="adminVacant.php">
-              <span class="link-title">Vacantes</span>
-              <i class="mdi mdi-clipboard-outline link-icon"></i>
-            </a>
-          </li>
-          <li>
-          <a href="assets/manuales/Manual Administrador.pdf" target="blank">
-              <span class="link-title">Manual Administrador</span>
-              <i class="mdi mdi-file-pdf link-icon"></i>
-            </a>
-          </li>
           
+                         
         </ul>
         
       </div>
@@ -279,7 +165,7 @@ include('graficas.php');
           <div class="content-viewport">
             <div class="row">
               <div class="col-12 py-5">
-                <h4>Dashboard</h4>
+                <h4>Estadisticas</h4>
               </div>
             </div>
             <div class="row">
@@ -397,34 +283,7 @@ include('graficas.php');
       </div>
       <!-- page content ends -->
     </div>
-    <div class="modal fade" id="seePassword" tabindex="-1" role="dialog" aria-labelledby="addFavorite_modalLabel" aria-hidden="true">
-        <div class="modal-dialog ui-corner-all" role="document">
-            <div class="modal-content" id="modalBody" name="modalBody">
-                <div class="modal-body">
-                <div class="form-group">
-                  <div class="alert alert-success mb-0" role="alert" id="alert_ex" style="display:none;"><strong>Exito!</strong> Se cambio la contraseña!</div>
-                  <div class="alert alert-danger mb-0" role="alert" id="alert_va" style="display:none;"><strong>Error!</strong> Uno o mas de los campos estan vacios!</div>
-                  <div class="alert alert-danger mb-0" role="alert" id="alert_pwo" style="display:none;"><strong>Error!</strong> Contraseña equivocada!</div>
-                    <center>Ingrese su contraseña</center><br>
-                    <input onchange="ocultar();" type="password" id="passold" name="passold" class="form-control" style="max-width:70%;width:70%; margin-left:15%; text-align:center;">
-                </div>
-                <div class="alert alert-danger mb-0" role="alert" id="alert_pw" style="display:none;"><strong>Error!</strong> Las contraseñas no coinciden</div>
-                <div class="form-group">
-                    <center>Ingrese su nueva contraseña</center><br>
-                    <input type="password" id="passnew" name="passnew" class="form-control" style="max-width:70%;width:70%; margin-left:15%; text-align:center;">
-                </div>
-                <div class="form-group">
-                    <center>Confirme su contraseña</center><br>
-                    <input type="password" id="pass" name="pass" class="form-control" style="max-width:70%;width:70%; margin-left:15%; text-align:center;" onchange="verifyPass();">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-success" onclick="passCheck();">Confirmar</button>
-            </div>
-            </div>
-        </div>
-    </div>
+    
     <!--page body ends -->
     <!-- SCRIPT LOADING START FORM HERE /////////////-->
     <!-- plugins:js -->
