@@ -90,7 +90,7 @@ if (!isset($_SESSION['redirect'])) {
                         '<td>' + data[i]["nom_empleado"] + '</td>' +
                         '<td>' + data[i]["correo_empleado"] + '</td>' +
                         '<td>' + data[i]["password_empleado"] + '</td>' +     
-                        '<td><a href="editEmpleado.php?correo=' + data[i]["correo_empleado"] +'">'+'<button type="button" rel=tooltip" class="btn btn-info btn-rounded">editar ' +  
+                        '<td><a href="editEmpleado.php?cod_empleado=' + data[i]["cod_empleado"] +'">'+'<button type="button" rel=tooltip" class="btn btn-info btn-rounded">editar ' +
                         '</tr>';
            }
           
@@ -248,6 +248,8 @@ if (!isset($_SESSION['redirect'])) {
                       </tbody>
                         
                       </table>
+                      <a href="registerEmpleado.php"><button type="button" rel="tooltip" class="btn btn-success btn-rounded">Crear Empleado
+
                     </div> 
                 </div>
               </div>             

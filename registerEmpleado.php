@@ -10,8 +10,6 @@ if (!isset($_SESSION['redirect'])) {
     header('Location: index.php');
 }
 
-$cod_empleado=$_GET["cod_empleado"];
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -79,34 +77,30 @@ $cod_empleado=$_GET["cod_empleado"];
   }
 
 
-  function modEmpresa(){
+  function reg(){
+    
       $.ajax({
         type: "POST",
-        url: "ws/modEmpresa.php",
-        data: new FormData($('#mod')[0]),
-        cache: false,
-        contentType: false,
-        processData: false,
+        url: "ws/registrarEmpleado.php",
+        data:$('#f_emp').serialize(),
         success: function (data) {
-            console.log(data);
             data = JSON.parse(data);
+            console.log(data);
             if (data["status"] == 1) {
-              console.log(data);
-              $('.dropify-clear').click();
               Swal.fire(
-                  'Bien hecho!',
-                  'Se ha modificado de forma exitosa!!!',
-                  'success'
-                ).then(function(){
+								  'Bien hecho!',
+								  'disfruta de la plataforma!!!',
+								  'success'
+								).then(function(){
                   window.location='adminEmpleados.php';
                 })
             }else{
-              if(data['error'] == 1062){
+              if(data['error'] ==1062){
                 Swal.fire(
-                  'Error!',
-                  data['error'],
-                  'error'
-                )
+								  'Error!',
+								  'El correo Ya se encuentra registrado en la plataforma!!!',
+								  'error'
+								)
               }
             }
         },
@@ -114,76 +108,12 @@ $cod_empleado=$_GET["cod_empleado"];
             console.log(data);
         },
     });
+    
   }
 
-  function getEmpleados(){
-    $.ajax({
-        type: "POST",
-        url: "ws/getEmpleados.php",
-        success: function (data) {    
-        data = JSON.parse(data);    
-            if (data["status"] == 1) {
-                data = data["empleados"];   
-                var i=0;
-                var econtro = false;
-                while(econtro==false){
-                  if(data[i]["cod_empleado"]==<?php echo $cod_empleado ?>){
-                   econtro=true;    
+  
 
-                  }else{
-                    i++;
-                  }                                      
-                }
-
-                var html ='<div class="form-group row showcase_row_area">'+
-                            '<input type="hidden"  name="cod_empleado" id="cod_empleado" value ="'+data[i]["cod_empleado"]+'" ">'+
-                          '<div class="col-md-5 showcase_text_area">'+
-                            '<label for="nit">Nombre</label>'+
-                          '</div>'+
-                          '<div class="col-md-20 showcase_content_area">'+
-                            '<input type="text" class="form-control" name="nombre" id="nombre" value ="'+data[i]["nom_empleado"]+'" style="width:180%;">'+
-                          '</div>'+
-                        '</div>'+
-                        '<div class="form-group row showcase_row_area">'+
-                          '<div class="col-md-5 showcase_text_area">'+
-                            '<label for="email">Correo</label>'+
-                          '</div>'+
-                          '<div class="col-md-20 showcase_content_area">'+
-                            '<input type="email" class="form-control" id="correo" name="correo" value ="'+data[i]["correo_empleado"]+'" style="width:180%;">'+
-                          '</div>'+
-                        '</div>'+
-                        '<div class="form-group row showcase_row_area">'+
-                          '<div class="col-md-5 showcase_text_area">'+
-                            '<label for="text">Contraseña</label>'+
-                          '</div>'+
-                          '<div class="col-md-20 showcase_content_area">'+
-                            '<input type="text" class="form-control" id="password" name="password" value ="'+data[i]["password_empleado"]+'" style="width:180%;">'+
-                          '</div>'+
-                        '</div>'+
-                        
-                        
-                       '</div>';
-                      
-
-                      
-          $('#insertar').html(html);
-          
-          dropify = $('#logo').dropify({
-                          messages: {
-                            'default': 'Arrastra el archivo o haz click aqui',
-                            'replace': 'Arrastra o clikea para remplazar',
-                            'remove':  'Quitar',
-                            'error':   'Ooops, algo a salido mal.'
-                        }
-                        });
-            }
-        },
-        error: function (data) {
-            console.log(data);
-        },
-    })
-  }
-
+ 
 </script>
 
   <body class="header-fixed">
@@ -282,11 +212,36 @@ $cod_empleado=$_GET["cod_empleado"];
             <div class="row">              
               <div class="col-lg-10 equel-grid">
                 <div class="grid">
-                  <p class="grid-header">Editar Empleado</p>
+                  <p class="grid-header">Crear Empleado</p>
                    <div class="grid-body">
                     <div class="item-wrapper">
-                      <form id="mod" action="javascript:void(0);" onsubmit="modEmpresa();">
-                          <div id="insertar">
+
+                      <form id="f_emp" action="javascript:void(0);" onsubmit="reg();">
+                      <div class="form-group row showcase_row_area">
+                            <input type="hidden"  name="cod_empleado" id="cod_empleado" value ="0">
+                          <div class="col-md-5 showcase_text_area">
+                            <label for="nit">Nombre</label>
+                          </div>
+                          <div class="col-md-20 showcase_content_area">
+                            <input type="text" class="form-control" name="nom_empleado" id="nom_empleado" style="width:180%;">
+                          </div>
+                        </div>
+                        <div class="form-group row showcase_row_area">
+                          <div class="col-md-5 showcase_text_area">
+                            <label for="email">Correo</label>
+                          </div>
+                          <div class="col-md-20 showcase_content_area">
+                            <input type="email" class="form-control" id="correo_empleado" name="correo_empleado"  style="width:180%;">
+                          </div>
+                        </div>
+                        <div class="form-group row showcase_row_area">
+                          <div class="col-md-5 showcase_text_area">
+                            <label for="text">Contraseña</label>
+                          </div>
+                          <div class="col-md-20 showcase_content_area">
+                            <input type="text" class="form-control" id="password_empleado" name="password_empleado"  style="width:180%;">
+                          </div>
+                        </div>
                           
 
                           </div>     
