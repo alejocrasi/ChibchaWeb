@@ -171,57 +171,12 @@ include('graficas.php');
             </div>
             <div class="row">
 
-              <div class="col-md-3 col-sm-6 col-6 equel-grid">
-                <div class="grid" >
-                  <div class="grid-body text-gray" >
-                    <div class="d-flex justify-content-between" id="num_estudiantes" name="num_estudiantes"  >
-                      <p ></p>
-                    </div>
-                    <p class="text-black">Estudiantes</p>
-                    <div class="wrapper w-50 mt-4">
-                      <canvas height="45" id="stat-line_1"></canvas>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-3 col-sm-6 col-6 equel-grid">
-                <div class="grid">
-                  <div class="grid-body text-gray">
-                    <div class="d-flex justify-content-between" id="num_empresas" name="num_empresas">
-                      <p ></p>
-                    </div>
-                    <p class="text-black">Empresas</p>
-                    <div class="wrapper w-50 mt-4">
-                      <canvas height="45" id="stat-line_2"></canvas>
-                    </div>
-                  </div>
-                </div>
-              </div>
-             
-             <div class="col-md-3 col-sm-6 col-6 equel-grid">
-                <div class="grid">
-                  <div class="grid-body text-gray">
-                    <div class="d-flex justify-content-between" id="num_vacantes" name="num_vacantes">
-                      <p ></p>
-                    </div>
-                    <p class="text-black">Vacantes</p>
-                    <div class="wrapper w-50 mt-4">
-                      <canvas height="45" id="stat-line_3"></canvas>
-                    </div>
-                  </div>
-                </div>
-              </div>
-             
-             
-              
-
-              <div class="col-md-6">
+            <div class="col-md-6">
               <div class="grid">
                 <div class="grid-body">
-                  <h2 class="grid-title">Numero de Estudiantes por Programa Academico</h2>
+                  <h2 class="grid-title">Grafica de tickets</h2>
                   <div class="item-wrapper">
-                    <canvas id="programas-graph" width="600" height="400"></canvas>
+                    <canvas id="grafica_tickets_resueltos" width="600" height="400"></canvas>
                   </div>
                 </div>
               </div>
@@ -229,39 +184,6 @@ include('graficas.php');
 
             
 
-            <div class="col-md-6">
-              <div class="grid">
-                <div class="grid-body">
-                  <h2 class="grid-title">Estudiantes aceptados por Programa</h2>
-                  <div class="item-wrapper">
-                    <canvas id="aceptados-programas-graph" width="600" height="400"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-12">
-              <div class="grid">
-                <div class="grid-body">
-                  <h2 class="grid-title">Estadistica de los rechazos</h2>
-                  <div class="item-wrapper">
-                    <canvas id="motivo-rechazo-graph" width="1200" height="600"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="col-md-12">
-              <div class="grid">
-                <div class="grid-body">
-                  <h2 class="grid-title">Actividad de las vacantes</h2>
-                  <div class="item-wrapper">
-                    <canvas id="actividad-line-graph" width="1200" height="400"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
       <!-- page content ends -->
         <!-- partial:../partials/_footer.html -->
         <footer class="footer">

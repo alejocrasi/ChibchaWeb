@@ -1,10 +1,10 @@
 <?php
 include_once('../persistencia/db.php');
-$query = "SELECT ((SELECT count(num_ticket) FROM ticket WHERE respuesta=='')) AS num_tickets_resueltos, ((SELECT count(num_ticket) FROM ticket WHERE respuesta!='')) as num_tickets_pendientes;";
+$query = "SELECT ((SELECT count(num_ticket) FROM ticket WHERE respuesta='')) AS num_tickets_pendientes, ((SELECT count(num_ticket) FROM ticket WHERE respuesta!='')) as num_tickets_resueltos;";
 
 $stmt = $mysqli->prepare($query);
 $stmt -> execute();
-$stmt -> bind_result($num_estudiantes, $num_empresas, $num_vacantes);
+$stmt -> bind_result($num_tickets_resueltos, $num_tickets_pendientes);
 
 
 $rta="";
@@ -12,9 +12,8 @@ $usuarios=array();
 while($stmt -> fetch()) {
     $aux=1;
     $usuario=array(
-        "num_estudiantes"=>$num_estudiantes,
-        "num_empresas"=>$num_empresas,
-        "num_vacantes"=>$num_vacantes       
+        "num_tickets_resueltos"=>$num_tickets_resueltos,
+        "num_tickets_pendientes"=>$num_tickets_pendientes,
 
     );
     array_push($usuarios,$usuario);
@@ -23,7 +22,7 @@ while($stmt -> fetch()) {
 $response=array();
 if(count($usuarios)>0){
     $response = array(
-        'usuarios' => $usuarios,
+        'tickets' => $usuarios,
         'status' => 1
     );
 }else{

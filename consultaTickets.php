@@ -155,7 +155,8 @@ include('graficas.php');
                 <div class="dropdown-header">
                   <h6 class="dropdown-title">Opciones</h6>
                 </div>
-                
+                <div class="dropdown-body border-top pt-0">
+
                   <a class="dropdown-grid" href="logout.php">
                     <i class="grid-icon mdi mdi-exit-to-app mdi-2x"></i>
                     <span class="grid-tittle">Cerrar sesión</span>
