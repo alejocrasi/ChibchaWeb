@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['redirect'])) {
-    header('Location: index.php');
+    header('Location: login.php');
 }
 ?>
 <!DOCTYPE html>
@@ -12,13 +12,14 @@ if (!isset($_SESSION['redirect'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="expires" content="Sun, 01 Jan 2014 00:00:00 GMT"/>
     <meta http-equiv="pragma" content="no-cache" />
-    <title>Cliente</title>
+    <title>Soporte cliente</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="assets/vendors/iconfonts/mdi/css/materialdesignicons.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.addons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script src="estilos_tp2/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <link href="assets/Home/styleDomonio.css" rel="stylesheet">
+
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
@@ -37,21 +38,6 @@ if (!isset($_SESSION['redirect'])) {
  <!-- Custom styles for this template-->
    </head>
 
-
-<style>
-.t-header .t-header-brand-wrapper a .logo {
-  width:150px;
-  height:50px;
-}
-.display-avatar.animated-avatar:before {
-  background-color: orange;
-  background-image: linear-gradient(19deg, orange 0%, red 100%)
-}
-.navbar-dropdown .dropdown-body .dropdown-grid {
-  width:40%;
-  margin-left:8%;
-}
-</style>
 <script>
    window.onload=function(){
     
@@ -100,10 +86,6 @@ if (!isset($_SESSION['redirect'])) {
     <!-- partial:../partials/_header.html -->
     <nav class="t-header">
       <div class="t-header-brand-wrapper">
-        <a href="?menu=stats">
-          <img class="logo" src="assets/images/logo.png" alt="">
-          <img class="logo-mini" src="assets/images/logo.png" alt="">
-        </a>
       </div>
       <div class="t-header-content-wrapper">
         <div class="t-header-content">
@@ -120,9 +102,11 @@ if (!isset($_SESSION['redirect'])) {
                   <h6 class="dropdown-title">Opciones</h6>
                 </div>
                 <div class="dropdown-body border-top pt-0">
-                  <a class="dropdown-grid">
+                <a class="dropdown-grid">
+                  </a>
+                <a class="dropdown-grid">
                     <i class="grid-icon mdi mdi-security mdi-2x"></i>
-                    <span class="grid-tittle">Cambiar contraseña</span>
+                    <Center><span class="grid-tittle">Cambiar contraseña</span></Center>
                   </a>
                   <a class="dropdown-grid" href="logout.php">
                     <i class="grid-icon mdi mdi-exit-to-app mdi-2x"></i>
@@ -146,7 +130,7 @@ if (!isset($_SESSION['redirect'])) {
             <h6 class="display-income"><?php echo $_SESSION['correo_cliente']; ?></h6>
             <h6 class="display-income">Menbrecia <?php echo $_SESSION['tipo_membresia']; ?> </h6>
           </div>
-          </div>
+        </div>
         <ul class="navigation-menu">
           <li class="nav-category-divider">Menu</li>
          
@@ -211,33 +195,37 @@ if (!isset($_SESSION['redirect'])) {
           ?>
           
         <!-- content viewport ends -->
-<footer id="footer">
+      <!-- partial -->
+            <!-- ======= Contact Us Section ======= -->
+            <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+          <div class="content-viewport">
+            <div class="row">              
+              <div class="col-lg-27">
+                <div class="grid">
+                  <p class="grid-header">Lista de Dominios</p>
+                  <div class="item-wrapper text-center">
+                      <div style="width: 1060px;">
+                      <table id="empleado" name="empleado" class="display nowrap dataTable dtr-inline collapsed no-footer" role="grid" aria-describedby="empleado_info">
+                      <thead>
+                      <tr role="row">
+                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="cod_empleado: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Codigo Dominio</th>
+                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="nom_empleado: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Nombre Dominio</th>
+                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="correo_empleado : Activar para ordenar la columna de manera ascendente" style="width: 1px;">Activo/Desactivado</th>
+                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="correo_empleado : Activar para ordenar la columna de manera ascendente" style="width: 1px;">DNS </th>
+                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="opciones: Activar para ordenar la columna de manera ascendente" style="width: 1px;">opciones</th>
 
-<div class="footer-top">
+                      </tr>
+                    </thead>
+                      <tbody id="empleado" name="empleado"><tr role="row" class="odd"></tr>
+                      </tbody>
+                        
+                      </table>
 
-  <div class="container">
-
-    <div class="row justify-content-center">
-      <div class="col-lg-6">
-        <a class="scrollto footer-logo"><img src="assets/img/hero-logo.png" alt=""></a>
-        <h3>OBTÉN TU DOMINIO</h3>
-        <p>Usa tu creatividad para elegir el nombre perfecto para tu dominio.</p>
-      </div>
-    </div>
-
-    <div class="row footer-newsletter justify-content-center">
-      <div class="col-lg-6">
-        <form action="" method="post">
-          <input type="email" name="email" placeholder="Ingresa el dominio que deseas registrar"><input type="submit" value="Buscar">
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-</footer><!-- End Footer -->
-
-
+                    </div> 
+                </div>
+              </div>  
+        <!-- content viewport ends -->
         <!-- partial:../partials/_footer.html -->
         <footer class="footer">
           <div class="row" style="display:block;text-align:center;">
@@ -264,18 +252,16 @@ if (!isset($_SESSION['redirect'])) {
     <!-- plugins:js -->
     <script src="assets/vendors/js/core.js"></script>
     <script src="assets/vendors/js/vendor.addons.js"></script>
+    <script src="assets/Home/php-email-form/validate.js"></script>
     <!-- endinject -->
     <!-- Vendor Js For This Page Ends-->
+    <script src="assets/js/charts/chartjs.js"></script>
+    <script src="assets/vendors/chartjs/Chart.min.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+    <!-- build:js -->
     <!-- Vendor Js For This Page Ends-->
     <!-- build:js -->
     <script src="assets/js/template.js"></script>
-    <script src="http://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-
-    <!-- Dropify file input -->
-    <script src="assets/dist/js/dropify.min.js"></script>
-    <link rel="stylesheet" href="assets/dist/css/dropify.min.css">
-
-   
     <!--  -->
   </body>
 </html>

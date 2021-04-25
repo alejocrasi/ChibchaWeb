@@ -341,7 +341,7 @@
   </div>
 </div>
 </div>
-<script src="assets/Home/jquery/jquery.min.js"></script>
+  <script src="assets/Home/jquery/jquery.min.js"></script>
   <script src="assets/Home/jquery.easing/jquery.easing.min.js"></script>
   <script src="assets/Home/jquery-sticky/jquery.sticky.js"></script>
   <script src="assets/Home/isotope-layout/isotope.pkgd.min.js"></script>
