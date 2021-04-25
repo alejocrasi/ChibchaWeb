@@ -394,7 +394,7 @@ body {
               
               <label>Razon social</label>
               <div class="input-group input-group-sm mb-3">
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="razon_sacial" name="razon_sacial" required placeholder="Digita la razon social " maxlength="50">
+                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="razon_social" name="razon_social" required placeholder="Digita la razon social " maxlength="50">
               </div>
               <label>NIT</label>
               <div class="input-group input-group-sm mb-3">
@@ -403,7 +403,7 @@ body {
               <div class="alert alert-danger mb-0" role="alert" id="alert_mailCp" style="display:none;"></div>
               <label>categoria </label>
               <div class="input-group input-group-sm mb-3">
-                <select name="plan_pago" class="form-control" id="categoria_distribuidor" required>
+                <select name="categoria_distribuidor" class="form-control" id="categoria_distribuidor" required>
                   <option value="basica">Basica</option>              
                     
                   </select>               
@@ -452,10 +452,11 @@ body {
                 </tr>
                 <tr>
                   <td class="text-center">
-                    Cliente
+                  Distribuidor                   
                   </td>
                   <td class="text-center">
-                    Distribuidor
+                    
+                    Cliente
                   </td>
                 </tr>
             </table></center>
