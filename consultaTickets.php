@@ -54,7 +54,7 @@ include('graficas.php');
 </style>
 <script>
    window.onload=function(){
-    getTikets();
+    getTickets();
 
   };
   
@@ -64,18 +64,18 @@ include('graficas.php');
   }
 
 
-  function getTikets(){
-    if ($.fn.DataTable.isDataTable( '#tikets' ) ) {
-        $('#tikets').DataTable().destroy();
+  function getTickets(){
+    if ($.fn.DataTable.isDataTable( '#tickets' ) ) {
+        $('#tickets').DataTable().destroy();
     }
     $.ajax({
         type: "POST",
-        url: "ws/getTikets.php",
+        url: "ws/getTickets.php",
         success: function (data) { 
           console.log(data);   
         data = JSON.parse(data);    
             if (data["status"] == 1) {
-                data = data["tikets"];
+                data = data["tickets"];
                 var html = '';
                 var i;
                 for (i = 0; i < data.length ; i++) {
@@ -85,16 +85,17 @@ include('graficas.php');
                         '<td>' + data[i]["num_ticket"] + '</td>' +
                         '<td>' + data[i]["nivel_ticket"] + '</td>' +
                         '<td>' + data[i]["correo_cliente"] + '</td>' +
-                        '<td>' + data[i]["reclamo"] + '</td>' +     
-                        '<td><a href="responderTiket.php?num_ticket=' + data[i]["num_ticket"] +'">'+'<button type="button" rel=tooltip" class="btn btn-info btn-rounded">Responder Tiket ' +
+                        '<td>' + data[i]["reclamo"] + '</td>' +   
+                        '<td>' + data[i]["respuesta"] + '</td>' +       
+                        '<td><a href="responderTicket.php?num_ticket=' + data[i]["num_ticket"] +'">'+'<button type="button" rel=tooltip" class="btn btn-info btn-rounded">Responder Ticket ' +
                         '</tr>';
            }
           
-          $('#tikets tbody').html(html);
+          $('#tickets tbody').html(html);
           
             }
             $("#contentPage").html(data);
-                    $('#tikets').DataTable({
+                    $('#tickets').DataTable({
                         "language": {
                             "sProcessing":    "Procesando...",
                             "sLengthMenu":    "Mostrar _MENU_ registros",
@@ -205,7 +206,7 @@ include('graficas.php');
           <div class="viewport-header" style="margin-left: -2%;">
             <div class="row">
               <div class="col-12 py-5">
-                <h4 style="margin-left: 2%; width: 100%;">Tikets</h4>
+                <h4 style="margin-left: 2%; width: 100%;">Tickets</h4>
               </div>
             </div>       
           </div>
@@ -213,21 +214,23 @@ include('graficas.php');
             <div class="row">              
               <div class="col-lg-27">
                 <div class="grid">
-                  <p class="grid-header">Lista de Tikets</p>
+                  <p class="grid-header">Lista de Tickets</p>
                   <div class="item-wrapper text-center">
                       <div style="width: 1060px;">
-                      <table id="tikets" name="tikets" class="display nowrap dataTable dtr-inline collapsed no-footer" role="grid" aria-describedby="tiket_info">
+                      <table id="tickets" name="tickets" class="display nowrap dataTable dtr-inline collapsed no-footer" role="grid" aria-describedby="ticket_info">
                       <thead>
                       <tr role="row">
-                        <th class="sorting" tabindex="0" aria-controls="tikets" rowspan="1" colspan="1" aria-label="num_ticket: Activar para ordenar la columna de manera ascendente" style="width: 1px;">num_ticket</th>
-                        <th class="sorting" tabindex="0" aria-controls="tikets" rowspan="1" colspan="1" aria-label="nivel_ticket: Activar para ordenar la columna de manera ascendente" style="width: 1px;">nivel_ticket</th>
-                        <th class="sorting" tabindex="0" aria-controls="tikets" rowspan="1" colspan="1" aria-label="correo_cliente : Activar para ordenar la columna de manera ascendente" style="width: 1px;">correo_cliente </th>
-                        <th class="sorting" tabindex="0" aria-controls="tikets" rowspan="1" colspan="1" aria-label="reclamo: Activar para ordenar la columna de manera ascendente" style="width: 1px;">reclamo</th>
-                        <th class="sorting" tabindex="0" aria-controls="tikets" rowspan="1" colspan="1" aria-label="responder: Activar para ordenar la columna de manera ascendente" style="width: 1px;">opciones</th>
+                        <th class="sorting" tabindex="0" aria-controls="tickets" rowspan="1" colspan="1" aria-label="num_ticket: Activar para ordenar la columna de manera ascendente" style="width: 1px;">numero</th>
+                        <th class="sorting" tabindex="0" aria-controls="tickets" rowspan="1" colspan="1" aria-label="nivel_ticket: Activar para ordenar la columna de manera ascendente" style="width: 1px;">nivel </th>
+                        <th class="sorting" tabindex="0" aria-controls="tickets" rowspan="1" colspan="1" aria-label="correo_cliente : Activar para ordenar la columna de manera ascendente" style="width: 1px;">correo del cliente </th>
+                        <th class="sorting" tabindex="0" aria-controls="tickets" rowspan="1" colspan="1" aria-label="reclamo: Activar para ordenar la columna de manera ascendente" style="width: 1px;">reclamo</th>
+                        <th class="sorting" tabindex="0" aria-controls="tickets" rowspan="1" colspan="1" aria-label="respuesta: Activar para ordenar la columna de manera ascendente" style="width: 1px;">respuesta</th>
+
+                        <th class="sorting" tabindex="0" aria-controls="tickets" rowspan="1" colspan="1" aria-label="responder: Activar para ordenar la columna de manera ascendente" style="width: 1px;">opciones</th>
 
                       </tr>
                     </thead>
-                      <tbody id="tikets" name="tikets"><tr role="row" class="odd"></tr>
+                      <tbody id="tickets" name="tickets"><tr role="row" class="odd"></tr>
                       </tbody>
                         
                       </table>

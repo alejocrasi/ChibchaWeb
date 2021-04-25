@@ -114,7 +114,8 @@ include('graficas.php');
                 <div class="dropdown-header">
                   <h6 class="dropdown-title">Opciones</h6>
                 </div>
-                
+                <div class="dropdown-body border-top pt-0">
+
                   <a class="dropdown-grid" href="logout.php">
                     <i class="grid-icon mdi mdi-exit-to-app mdi-2x"></i>
                     <span class="grid-tittle">Cerrar sesión</span>
@@ -149,8 +150,8 @@ include('graficas.php');
           </li>
           
           <li>
-            <a href="consultaTikets.php">
-              <span class="link-title">Consultar Tikets</span>
+            <a href="consultaTickets.php">
+              <span class="link-title">Consultar Tickets</span>
               <i class="mdi mdi mdi-bookmark-plus link-icon"></i>
             </a>
           </li>
@@ -295,5 +296,7 @@ include('graficas.php');
     <!-- build:js -->
     <script src="assets/js/template.js"></script>
     <!--  -->
+
+   
   </body>
 </html>

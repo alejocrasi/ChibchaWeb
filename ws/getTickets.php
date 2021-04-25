@@ -1,27 +1,29 @@
 <?php
 include_once('../persistencia/db.php');
-$query = "SELECT `num_ticket`, `nivel_ticket`, `correo_cliente`, `reclamo` FROM `tickets`";
+$query = "SELECT `num_ticket`, `nivel_ticket`, `correo_cliente`, `reclamo`, `respuesta`   FROM `ticket`";
 
 $stmt = $mysqli->prepare($query);
 $stmt -> execute();
-$stmt -> bind_result($num_ticket,$nivel_ticket,$correo_cliente,$reclamo);
+$stmt -> bind_result($num_ticket,$nivel_ticket,$correo_cliente,$reclamo,$respuesta);
 
 $rta="";
-$tikets=array();
+$tickets=array();
 while($stmt -> fetch()) {
     $aux=1;
-    $tiket=array(
+    $ticket=array(
         "num_ticket"=>$num_ticket,
         "nivel_ticket"=>$nivel_ticket,
         "correo_cliente"=>$correo_cliente,
         "reclamo"=>$reclamo,
+        "respuesta"=>$respuesta,
+
     );
-    array_push($tikets,$tiket);
+    array_push($tickets,$ticket);
 }
 $response=array();
-if(count($tikets)>0){
+if(count($tickets)>0){
     $response = array(
-        'tikets' => $tikets,
+        'tickets' => $tickets,
         'status' => 1
     );
 }else{
