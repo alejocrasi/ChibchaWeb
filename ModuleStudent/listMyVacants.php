@@ -159,7 +159,7 @@
 <div class="viewport-header" style="margin-left: -2%;">
     <div class="row">
         <div>
-            <h4 style="margin-left: 15%; width: 100%;">Mis vacantes</h4>
+            <h4 style="margin-left: 15%; width: 100%;"></h4>
         </div>
     </div>
     <hr>

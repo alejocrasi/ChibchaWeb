@@ -249,6 +249,10 @@ if (!isset($_SESSION['redirect'])) {
               <div class="validate"></div>
             </div>
             <div class="form-group">
+              <input type="text" class="form-control" name="subject" id="subject" placeholder="Url" data-rule="minlen:4" data-msg="Porfavor ingresa mas de 8 caracteres para el asunto" />
+              <div class="validate"></div>
+            </div>
+            <div class="form-group">
               <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Porfavor ingresa tu inquietud" ></textarea>
               <div class="validate"></div>
             </div>
