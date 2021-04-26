@@ -6,14 +6,14 @@ include_once('../persistencia/db.php');
 
 
 
-$URL_pagina = $_POST["URL_pagina"];
+$URL_dominio = $_POST["URL_dominio"];
 $nivel_ticket = $_POST["nivel_ticket"];
 $correo_cliente = $_POST["correo_cliente"];
 $reclamo = $_POST["reclamo"];
 
 $response = [];
-$sql = "INSERT INTO `tickets`(`num_ticket`,`URL_pagina`, `nivel_ticket`, `correo_cliente`, `reclamo`) 
-        VALUES (0, '".$URL_pagina."' ,'".$nivel_ticket."','".$correo_cliente."','".$reclamo."')";
+$sql = "INSERT INTO `tickets`(`num_ticket`,`URL_dominio`, `nivel_ticket`, `correo_cliente`, `reclamo`, `respuesta`) 
+        VALUES (0,'".$URL_dominio."' ,'".$nivel_ticket."','".$correo_cliente."','".$reclamo."','""')";
 if (!$mysqli->query($sql)) {
     if($mysqli->errno == 1062){
         $response = array(

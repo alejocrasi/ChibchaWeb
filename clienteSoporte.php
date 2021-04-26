@@ -216,20 +216,26 @@ if (!isset($_SESSION['redirect'])) {
                 <div class="validate"></div>
               </div>
               <div class="col-md-6 form-group">
-                <input type="email" class="form-control" name="correo_cliente" id="correo_cliente" placeholder="Ingresa tu correo" data-rule="email" data-msg="Porfavor ingresa tu Email" />
+                <input type="email" class="form-control" name="correo_cliente" id="correo_cliente" value="<?php echo $_SESSION['correo_cliente']; ?>" data-rule="email" readonly data-msg="Porfavor ingresa tu Email" />
                 <div class="validate"></div>
               </div>
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" name="URL_pagina" id="URL_pagina" placeholder="Url paginaWeb" data-rule="minlen:4" data-msg="Porfavor ingresa tu url de pagina web" />
+              <input type="text" class="form-control" name="URL_dominio" id="URL_dominio" placeholder="Url paginaWeb" data-rule="minlen:4" data-msg="Porfavor ingresa tu url de pagina web" />
               <div class="validate"></div>
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" name="Asunto" id="Asunto" placeholder="Asunto" data-rule="minlen:4" data-msg="Porfavor ingresa mas de 8 caracteres para el asunto" />
-              <div class="validate"></div>
+                <select name="nivel_ticket" class="form-control" id="nivel_ticket" required>
+                  <option value="">Seleccione el nivel del ticket</option>              
+                  <option value="5">Urgente</option>
+                  <option value="4">Alto</option>
+                  <option value="3">Normal</option>
+                  <option value="2">Mediano</option>
+                  <option value="1">Bajo</option>
+                </select>
             </div>
             <div class="form-group">
-              <textarea class="form-control" name="Reclamo" id="Reclamo" rows="5" data-rule="required" data-msg="Porfavor ingresa tu inquietud" ></textarea>
+              <textarea class="form-control" name="reclamo" id="reclamo" rows="5" data-rule="required" data-msg="Porfavor ingresa tu inquietud" ></textarea>
               <div class="validate"></div>
             </div>
             <div class="mb-3">
