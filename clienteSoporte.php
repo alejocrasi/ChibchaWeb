@@ -122,10 +122,13 @@ if (!isset($_SESSION['redirect'])) {
       <!-- partial:../partials/_sidebar.html -->
       <div class="sidebar">
         <div class="user-profile">
+        <div class="display-avatar animated-avatar">
+            <img class="profile-img img-lg rounded-circle" src="assets\images\profile\users\logoAdmin.jpg" alt="profile image">
+          </div>
           <div class="info-wrapper">
             <h5 class="user-name"><?php echo $_SESSION['nom_cliente'];?></h5><br>
             <h6 class="display-income"><?php echo $_SESSION['correo_cliente']; ?></h6>
-            <h6 class="display-income">Menbrecia <?php echo $_SESSION['tipo_membresia']; ?> </h6>
+            <h6 class="display-income">Membresia <?php echo $_SESSION['tipo_membresia']; ?> </h6>
           </div>
         </div>
         <ul class="navigation-menu">
@@ -139,25 +142,6 @@ if (!isset($_SESSION['redirect'])) {
           </li>
        
        
-          <li>
-            <a href="#hv-pages" data-toggle="collapse" aria-expanded="false">
-              <span class="link-title">No se</span>
-              <i class="mdi mdi-account-card-details link-icon"></i>
-            </a>
-            <ul class="collapse navigation-submenu" id="hv-pages">
-              <li>
-                <a href="?menu=EditCV"><strong>Editar</strong></a>
-              </li>
-              <li>
-                <form method="post" target="_blank" action="pdf.php" id="formPDF">
-                  <a href="" onclick="this.closest('form').submit();return false;">
-                    <span class="link-title"><strong>Ver en PDF</strong> </span>
-                  </a>
-                  <input type="hidden" id="id" name="id" value="<?php echo $_SESSION["id"];?>"/>
-                </form>
-              </li>
-            </ul>
-          </li>
 
 
           <li>
