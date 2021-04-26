@@ -68,7 +68,7 @@ if (!isset($_SESSION['redirect'])) {
                  if(dominio == data[i]["URL_dominio"]){
                      alert("Ya existe el dominio");
                  }
-                 else{window.location="editDominio.php";}
+                 else{window.location="ClienteRegistrarDominio.php";}
                 }
             }
         },
