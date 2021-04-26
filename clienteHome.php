@@ -191,7 +191,7 @@ if (!isset($_SESSION['redirect'])) {
       <div class="page-content-wrapper">
         <div class="page-content-wrapper-inner">
         <?php 
-            require_once('routing.php');
+            require_once('routingSt.php');
           ?>
           
         <!-- content viewport ends -->
