@@ -63,6 +63,17 @@ $nit=$_GET["nit"];
   width:40%;
   margin-left:8%;
 }
+.sidebar .navigation-menu li a {
+    
+    color: #ffffff;
+    
+}
+.sidebar {
+    
+    background: #790606;
+    
+}
+
 
 </style>
 
