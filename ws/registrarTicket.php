@@ -27,7 +27,7 @@ if (!$mysqli->query($sql)) {
         );
     }
 }else{
-    $query='SELECT num_ticket from tickets where correo_cliente ="'.$_POST['correo_cliente'].'"';
+    $query='SELECT num_ticket from ticket where correo_cliente ="'.$_POST['correo_cliente'].'"';
     $r=$mysqli->query($query);
     if ($row=$r-> fetch_assoc()) {
         $id=$row["num_ticket"];
