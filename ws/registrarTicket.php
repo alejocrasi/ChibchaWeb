@@ -13,7 +13,7 @@ $reclamo = $_POST["reclamo"];
 
 $response = [];
 $sql = "INSERT INTO `tickets`(`num_ticket`,`URL_dominio`, `nivel_ticket`, `correo_cliente`, `reclamo`, `respuesta`) 
-        VALUES (0,'".$URL_dominio."' ,'".$nivel_ticket."','".$correo_cliente."','".$reclamo."','""')";
+        VALUES (0,'".$URL_dominio."' ,'".$nivel_ticket."','".$correo_cliente."','".$reclamo."','')";
 if (!$mysqli->query($sql)) {
     if($mysqli->errno == 1062){
         $response = array(
