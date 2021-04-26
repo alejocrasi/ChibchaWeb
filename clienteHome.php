@@ -54,7 +54,7 @@ if (!isset($_SESSION['redirect'])) {
 </style>
 <script>
   function getDominios(){
-    dominio = document.getElementsByName("email")[0].value;
+    var dominio = document.getElementsByName("email")[0].value;
     $.ajax({
         type: "POST",
         url: "ws/getDominios.php",
@@ -62,14 +62,29 @@ if (!isset($_SESSION['redirect'])) {
         data = JSON.parse(data);   
             if (data["status"] == 1) {
                 data = data["dominios"];
-                var html = '';
+                var html = false;
                 var i;
                 for (i = 0; i < data.length; i++) {
-                 if(dominio == data[i]["URL_dominio"]){
-                     alert("Ya existe el dominio");
-                 }
-                 else{window.location="editDominio.php";}
+                  if(dominio.toLowerCase() == data[i]["URL_dominio"].toLowerCase()){
+                     html=true;
+                  }
                 }
+                if(html == true){
+                Swal.fire(
+                'Error!',
+                'Ya existe el dominio',
+                'error'
+                )
+                 }
+                 else{
+                Swal.fire(
+                'Bien hecho!',
+                'Dominio Correcto!!!',
+                'success'
+              ).then(function(){
+                window.location.href="editDominio.php?dominio="+ dominio;
+              })
+                  }
             }
         },
         error: function (data) {
@@ -77,6 +92,8 @@ if (!isset($_SESSION['redirect'])) {
         },
     })
   }
+
+
 </script>
 
   <body class="header-fixed">

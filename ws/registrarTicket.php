@@ -5,17 +5,15 @@ include_once('../persistencia/db.php');
  require '../mailer/Exception.php';
 
 
-$URL_dominio = $_POST["URL_dominio"];
-$ip_dominio = $_POST["ip_dominio"];
+
+$URL_pagina = $_POST["URL_pagina"];
+$nivel_ticket = $_POST["nivel_ticket"];
 $correo_cliente = $_POST["correo_cliente"];
-$NIT_distribuidor = $_POST["NIT_distribuidor"];
-
-
-
+$reclamo = $_POST["reclamo"];
 
 $response = [];
-$sql = "INSERT INTO `dominio`(`URL_dominio`,`ip_dominio`, `correo_cliente`, `NIT_distribuidor`) 
-        VALUES ('".$URL_dominio."' ,'".$ip_dominio."','".$correo_cliente."','".$NIT_distribuidor."')";
+$sql = "INSERT INTO `tickets`(`num_ticket`,`URL_pagina`, `nivel_ticket`, `correo_cliente`, `reclamo`) 
+        VALUES (0, '".$URL_pagina."' ,'".$nivel_ticket."','".$correo_cliente."','".$reclamo."')";
 if (!$mysqli->query($sql)) {
     if($mysqli->errno == 1062){
         $response = array(
@@ -29,10 +27,10 @@ if (!$mysqli->query($sql)) {
         );
     }
 }else{
-    $query='SELECT ip_dominio from dominio where correo_cliente ="'.$_POST['correo_cliente'].'"';
+    $query='SELECT num_ticket from tickets where correo_cliente ="'.$_POST['correo_cliente'].'"';
     $r=$mysqli->query($query);
     if ($row=$r-> fetch_assoc()) {
-        $id=$row["ip_dominio"];
+        $id=$row["num_ticket"];
 
         $response = array(
         'comment' => "Se agregó satisfactoriamente",

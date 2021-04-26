@@ -43,46 +43,39 @@ if (!isset($_SESSION['redirect'])) {
    </head>
 
 <script>
-   window.onload=function(){
+  function regTicket(){
     
-    getCompanies();
-
-  };
-
-
-  function getCompanies(){
     $.ajax({
-        type: "POST",
-        url: "ws/getCompanies.php",
-        success: function (data) {    
-        data = JSON.parse(data);    
-            if (data["status"] == 1) {
-                data = data["companies"];
-                var html = '';
-                var i;
-                for (i = 0; i < data.length; i++) {
-                html += '<tr>' +
-             '<td><img width="50px" height="50px" src="assets/images/logos/' + data[i]["logo"] + '"></td>' +
-             '<td>' + data[i]["programa"] + '</td>' +
-             '<td>' + data[i]["nombre"] + '</td>' +
-             '<td>' + data[i]["correo_empresa"] + '</td>' +
-             '<td>' + data[i]["descripcion_empresa"] + '</td>' +
-             '<td>' + data[i]["num_ingresos"] + '</td>' +
-             '<td>' + data[i]["estado"] + '</td>' +
-             '<td><a href="assets/images/cc/' + data[i]["cc_empresa"] + '">documento</a></td>' +
-             '<td><a href="">'+'<button type="button" rel=tooltip" class="btn btn-outline-info btn-rounded">edit'
-             '</tr>';
-
-           }
-          $('#company').html(html);
-          
+      type: "POST",
+      url: "ws/registrarTicket.php",
+      data:$('#f_dom').serialize(),
+      success: function (data) {
+          data = JSON.parse(data);
+          console.log(data);
+          if (data["status"] == 1) {
+            Swal.fire(
+                'Bien hecho!',
+                'Se ha enviado correctamente tu inquietud!!!',
+                'success'
+              ).then(function(){
+                window.location='clienteSoporte.php';
+              })
+          }else{
+            if(data['error'] ==1062){
+              Swal.fire(
+                'Error!',
+                'No se ha podido enviar tu inquietud!!!',
+                'error'
+              )
             }
-        },
-        error: function (data) {
-            console.log(data);
-        },
-    })
-  }
+          }
+      },
+      error: function (data) {
+          console.log(data);
+      },
+  });
+  
+}
 
 </script>
 
@@ -194,8 +187,7 @@ if (!isset($_SESSION['redirect'])) {
       <!-- partial -->
       <div class="page-content-wrapper">
         <div class="page-content-wrapper-inner">
-          <?php 
-            require_once('routingSt.php');
+        <?php 
           ?>
           
         <!-- content viewport ends -->
@@ -233,35 +225,35 @@ if (!isset($_SESSION['redirect'])) {
             </div>
           </div>
 
-          <form action="forms/contact.php" method="post" role="form" class="php-email-form mt-4" data-aos="fade-up" data-aos-delay="400">
+          <form id="f_dom" method="post" role="form" class="php-email-form mt-4" data-aos="fade-up" data-aos-delay="400" onsubmit="regTicket();">
             <div class="form-row">
               <div class="col-md-6 form-group">
                 <input type="text" name="name" class="form-control" id="name" placeholder="Ingresa tu nombre" data-rule="minlen:4" data-msg="Porfavor ingresa tu nombre" />
                 <div class="validate"></div>
               </div>
               <div class="col-md-6 form-group">
-                <input type="email" class="form-control" name="email" id="email" placeholder="Ingresa tu correo" data-rule="email" data-msg="Porfavor ingresa tu Email" />
+                <input type="email" class="form-control" name="correo_cliente" id="correo_cliente" placeholder="Ingresa tu correo" data-rule="email" data-msg="Porfavor ingresa tu Email" />
                 <div class="validate"></div>
               </div>
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" name="subject" id="subject" placeholder="Asunto" data-rule="minlen:4" data-msg="Porfavor ingresa mas de 8 caracteres para el asunto" />
+              <input type="text" class="form-control" name="URL_pagina" id="URL_pagina" placeholder="Url paginaWeb" data-rule="minlen:4" data-msg="Porfavor ingresa tu url de pagina web" />
               <div class="validate"></div>
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" name="subject" id="subject" placeholder="Url" data-rule="minlen:4" data-msg="Porfavor ingresa mas de 8 caracteres para el asunto" />
+              <input type="text" class="form-control" name="Asunto" id="Asunto" placeholder="Asunto" data-rule="minlen:4" data-msg="Porfavor ingresa mas de 8 caracteres para el asunto" />
               <div class="validate"></div>
             </div>
             <div class="form-group">
-              <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Porfavor ingresa tu inquietud" ></textarea>
+              <textarea class="form-control" name="Reclamo" id="Reclamo" rows="5" data-rule="required" data-msg="Porfavor ingresa tu inquietud" ></textarea>
               <div class="validate"></div>
             </div>
             <div class="mb-3">
               <div class="loading">Cargando</div>
-              <div class="error-message">Tu mensaje no se pudo enviar</div>
-              <div class="sent-message">Tu mensaje a sido enviado !gracias por tu contribucion!</div>
-            </div>
-            <div class="text-center"><button type="submit">Enviar</button></div>
+              <!--<div class="error-message">Tu mensaje no se pudo enviar</div>-->
+               <!--<div class="sent-message">Tu mensaje a sido enviado !gracias por tu contribucion!</div>-->
+             <!--</div>-->
+             <div class="text-center"><button type="submit">Enviar</button></div>
           </form>
 
         </div>

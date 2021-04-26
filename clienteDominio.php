@@ -1,5 +1,11 @@
 <?php
+header("Expires: Tue, 01 Jan 2000 00:00:00 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 session_start();
+
 
 if (!isset($_SESSION['redirect'])) {
     header('Location: login.php');
@@ -38,47 +44,78 @@ if (!isset($_SESSION['redirect'])) {
  <!-- Custom styles for this template-->
    </head>
 
-<script>
+   <script>
    window.onload=function(){
-    
-    getCompanies();
-
+    getDominios();
   };
+  
+  function ocultar(){
+    $('#alert_pwo').css('display','none');
+  }
+   
 
-
-  function getCompanies(){
+  function getDominios(){
+    if ($.fn.DataTable.isDataTable( '#dominio' ) ) {
+        $('#dominio').DataTable().destroy();
+    }
+    var a = "<?php echo $_SESSION["correo_cliente"];?>";
     $.ajax({
         type: "POST",
-        url: "ws/getCompanies.php",
-        success: function (data) {    
-        data = JSON.parse(data);    
+        url: "ws/getDominios.php",
+        success: function (data) {   
+        data = JSON.parse(data);   
             if (data["status"] == 1) {
-                data = data["companies"];
+                data = data["dominios"];
                 var html = '';
                 var i;
                 for (i = 0; i < data.length; i++) {
-                html += '<tr>' +
-             '<td><img width="50px" height="50px" src="assets/images/logos/' + data[i]["logo"] + '"></td>' +
-             '<td>' + data[i]["programa"] + '</td>' +
-             '<td>' + data[i]["nombre"] + '</td>' +
-             '<td>' + data[i]["correo_empresa"] + '</td>' +
-             '<td>' + data[i]["descripcion_empresa"] + '</td>' +
-             '<td>' + data[i]["num_ingresos"] + '</td>' +
-             '<td>' + data[i]["estado"] + '</td>' +
-             '<td><a href="assets/images/cc/' + data[i]["cc_empresa"] + '">documento</a></td>' +
-             '<td><a href="">'+'<button type="button" rel=tooltip" class="btn btn-outline-info btn-rounded">edit'
-             '</tr>';
-
-           }
-          $('#company').html(html);
-          
+                 if( a == data[i]["correo_cliente"]){
+                  html += '<tr>' +
+                        '<td>' + data[i]["ip_dominio"] + '</td>' +
+                        '<td>' + data[i]["URL_dominio"] + '</td>' +                       
+                        '<td> <button type="submit" rel=tooltip" class="btn btn-info btn-rounded">DNS ' + '</td>' +
+                        '<td><button type="button" rel=tooltip" class="btn btn-info btn-rounded">editar ' +  '</td>' +
+                        '</tr>';
+                 }
+                }
+              $('#dominio tbody').html(html);
             }
+            $("#contentPage").html(data);
+                    $('#dominio').DataTable({
+                        "language": {
+                            "sProcessing":    "Procesando...",
+                            "sLengthMenu":    "Mostrar _MENU_ registros",
+                            "sZeroRecords":   "No se encontraron resultados",
+                            "sEmptyTable":    "Ningún dato disponible en esta tabla",
+                            "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix":   "",
+                            "sSearch":        "Buscar:",
+                            "sUrl":           "",
+                            "sInfoThousands":  ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst":    "Primero",
+                                "sLast":    "Último",
+                                "sNext":    "Siguiente",
+                                "sPrevious": "Anterior"
+                            },
+                            "oAria": {
+                                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                            }
+                        }
+                    });
         },
         error: function (data) {
             console.log(data);
         },
     })
   }
+
+
+
 
 </script>
 
@@ -190,8 +227,8 @@ if (!isset($_SESSION['redirect'])) {
       <!-- partial -->
       <div class="page-content-wrapper">
         <div class="page-content-wrapper-inner">
-          <?php 
-            require_once('routingSt.php');
+        <?php 
+
           ?>
           
         <!-- content viewport ends -->
@@ -206,18 +243,17 @@ if (!isset($_SESSION['redirect'])) {
                   <p class="grid-header">Lista de Dominios</p>
                   <div class="item-wrapper text-center">
                       <div style="width: 1060px;">
-                      <table id="empleado" name="empleado" class="display nowrap dataTable dtr-inline collapsed no-footer" role="grid" aria-describedby="empleado_info">
+                      <table id="dominio" name="dominio" class="display nowrap dataTable dtr-inline collapsed no-footer" role="grid" aria-describedby="diminio_info">
                       <thead>
                       <tr role="row">
-                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="cod_empleado: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Codigo Dominio</th>
-                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="nom_empleado: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Nombre Dominio</th>
-                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="correo_empleado : Activar para ordenar la columna de manera ascendente" style="width: 1px;">Activo/Desactivado</th>
-                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="correo_empleado : Activar para ordenar la columna de manera ascendente" style="width: 1px;">DNS </th>
-                        <th class="sorting" tabindex="0" aria-controls="empleado" rowspan="1" colspan="1" aria-label="opciones: Activar para ordenar la columna de manera ascendente" style="width: 1px;">opciones</th>
+                        <th class="sorting" tabindex="0" aria-controls="dominio" rowspan="1" colspan="1" aria-label="ip_dominio: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Codigo Dominio</th>
+                        <th class="sorting" tabindex="0" aria-controls="dominio" rowspan="1" colspan="1" aria-label="URL_dominio: Activar para ordenar la columna de manera ascendente" style="width: 1px;">Nombre Dominio</th>
+                        <th class="sorting" tabindex="0" aria-controls="dominio" rowspan="1" colspan="1" aria-label="DNS : Activar para ordenar la columna de manera ascendente" style="width: 1px;">DNS </th>
+                        <th class="sorting" tabindex="0" aria-controls="dominio" rowspan="1" colspan="1" aria-label="opciones: Activar para ordenar la columna de manera ascendente" style="width: 1px;">opciones</th>
 
                       </tr>
                     </thead>
-                      <tbody id="empleado" name="empleado"><tr role="row" class="odd"></tr>
+                      <tbody id="dominio" name="dominio"><tr role="row" class="odd"></tr>
                       </tbody>
                         
                       </table>
@@ -226,6 +262,7 @@ if (!isset($_SESSION['redirect'])) {
                 </div>
               </div>  
         <!-- content viewport ends -->
+        
         <!-- partial:../partials/_footer.html -->
         <footer class="footer">
           <div class="row" style="display:block;text-align:center;">

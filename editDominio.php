@@ -1,9 +1,16 @@
 <?php
+header("Expires: Tue, 01 Jan 2000 00:00:00 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 session_start();
 
 if (!isset($_SESSION['redirect'])) {
     header('Location: index.php');
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +24,7 @@ if (!isset($_SESSION['redirect'])) {
     <link rel="stylesheet" href="assets/vendors/iconfonts/mdi/css/materialdesignicons.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.addons.css">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="estilos_tp2/vendor/jquery-easing/jquery.easing.min.js"></script>
     <link href="assets/Home/styleDomonio.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -52,31 +60,83 @@ if (!isset($_SESSION['redirect'])) {
   margin-left:8%;
 }
 </style>
+
 <script>
-  function getDominios(){
-    dominio = document.getElementsByName("email")[0].value;
+   window.onload=function(){
+   
+   getClientes();
+   getRamdom();
+
+
+ };
+
+ function getRamdom(){
+   var a = Math.floor(Math.random() * (255 - 0) + 0);
+   var b = Math.floor(Math.random() * (255 - 0) + 0);
+   var c = Math.floor(Math.random() * (255 - 0) + 0);
+   var d = Math.floor(Math.random() * (255 - 0) + 0);
+   var ip = a+"."+b+"."+c+"."+d;
+   document.getElementById("ip_dominio").value=ip;
+ }
+ function getClientes(){
+   $.ajax({
+       type: "POST",
+       url: "ws/getDistribuidores.php",
+       success: function (data) {
+       data = JSON.parse(data);   
+           if (data["status"] == 1) {
+               data = data["distribuidores"];
+               var html = '';
+               var i;
+               var html = '<select name="NIT_distribuidor" class="form-control" id="NIT_distribuidor" required>'+
+                            '<option value="">Seleccione el plan de pago</option>';
+               for (i = 0; i < data.length; i++) {
+                var html1 = "<option value ='" +data[i]["NIT_distribuidor"]+"'>" +data[i]["razon_social"]+"</option>";
+                var html = html+html1;
+              }
+               $('#insertar').html(html);
+           }
+       },
+       error: function (data) {
+           console.log(data);
+       },
+   })
+ }
+
+ function regDominio(){
+    
     $.ajax({
-        type: "POST",
-        url: "ws/getDominios.php",
-        success: function (data) {   
-        data = JSON.parse(data);   
-            if (data["status"] == 1) {
-                data = data["dominios"];
-                var html = '';
-                var i;
-                for (i = 0; i < data.length; i++) {
-                 if(dominio == data[i]["URL_dominio"]){
-                     alert("Ya existe el dominio");
-                 }
-                 else{window.location="ClienteRegistrarDominio.php";}
-                }
+      type: "POST",
+      url: "ws/registrarDominio.php",
+      data:$('#modDominio').serialize(),
+      success: function (data) {
+          data1 = JSON.parse(data);
+          console.log(data);
+          if (data1["status"] == 1) {
+            Swal.fire(
+                'Bien hecho!',
+                'Dominio Ingresado!!!',
+                'success'
+              ).then(function(){
+                window.location='clienteHome.php';
+              })
+          }else{
+            if(data['error'] ==1062){
+              Swal.fire(
+                'Error!',
+                'El dominio no se a podido registrar!!!',
+                'error'
+              )
             }
-        },
-        error: function (data) {
-            console.log(data);
-        },
-    })
-  }
+          }
+      },
+      error: function (data) {
+          console.log(data);
+      },
+  });
+  
+}
+
 </script>
 
   <body class="header-fixed">
@@ -189,41 +249,57 @@ if (!isset($_SESSION['redirect'])) {
       <!-- partial -->
       <div class="page-content-wrapper">
         <div class="page-content-wrapper-inner">
-          <div class="viewport-header">
-            <div class="row">
-              <div class="col-12 py-5">
-                <h4>Distribuidor</h4>
-                <div class="form-group">
-                                                           
-
-              </div>
-            </div>       
+          <div class="viewport-header">      
           </div>
           <div class="content-viewport">
             <div class="row">              
               <div class="col-lg-10 equel-grid">
                 <div class="grid">
-                  <p class="grid-header">Editar Cliente</p>
+                  <p class="grid-header">Editar Dominio</p>
                    <div class="grid-body">
                     <div class="item-wrapper">
-                      <form id="mod" action="javascript:void(0);" onsubmit="modCliente();">
+                      <form id="modDominio" action="javascript:void(0);" onsubmit="regDominio();">
+                          <div class="form-group row showcase_row_area">
+                           <div class="col-md-5 showcase_text_area">
+                             <label for="text">URL dominio</label>
+                           </div>
+                           <div class="col-md-20 showcase_content_area">
+                             <input type="text" class="form-control" name="URL_dominio" id="URL_dominio" value="<?php echo $_GET["dominio"];?>" readonly style="width:180%;">
+                           </div>
+                         </div>
+                         <div class="form-group row showcase_row_area">
+                         <div class="col-md-5 showcase_text_area">
+                             <label for="text">Ip dominio</label>
+                           </div>
+                           <div class="col-md-20 showcase_content_area">
+                             <input type="text" class="form-control" name="ip_dominio" id="ip_dominio" value ="" readonly style="width:180%;">
+                          </div>
+                        </div>
+                        <div class="form-group row showcase_row_area">
+                        <div class="col-md-5 showcase_text_area">
+                            <label for="text">Correo</label>
+                          </div>
+                          <div class="col-md-20 showcase_content_area">
+                            <input type="text" class="form-control" name="correo_cliente" id="correo_cliente" value ="<?php echo $_SESSION["correo_cliente"];?>" readonly style="width:180%;">
+                          </div>
+                        </div>
+                        <div class="form-group row showcase_row_area">
+                          <div class="col-md-5 showcase_text_area">
+                            <label for="text">Distribuidores</label>
+                          </div>
+                          <div class="col-md-20 showcase_content_area" id="insertar">
                           <div id="insertar">
-                          
-
-                          </div>     
-                          <div >
-                            <br>
+                            </div>
+                          </div>
+                        </div>
                               <div class="form-group row showcase_row_area" style="float:right;" >
                                 <div>                  
-                                  <a href="adminClientes.php" class="btn btn-warning" style="margin-right:15px;">Cancelar</a>
+                                  <a href="clienteHome.php" class="btn btn-warning" style="margin-right:15px;">Cancelar</a>
                                 </div>
                                 <div>
                                   <button type="submit" class="btn btn-success">Aceptar</button>
-                                </div>
-                                
+                                </div> 
                               </div>
-                          </div>
-                          </div>
                       </form>
                     </div>
                   </div>
@@ -231,7 +307,8 @@ if (!isset($_SESSION['redirect'])) {
               </div>
             </div>   
           </div>
-        
+        </div>
+      </div>
 
 
         <!-- partial:../partials/_footer.html -->
@@ -264,12 +341,9 @@ if (!isset($_SESSION['redirect'])) {
     <!-- Vendor Js For This Page Ends-->
     <!-- Vendor Js For This Page Ends-->
     <!-- build:js -->
-    <script src="assets/js/template.js"></script>
-    <script src="http://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-
-    <!-- Dropify file input -->
-    <script src="assets/dist/js/dropify.min.js"></script>
-    <link rel="stylesheet" href="assets/dist/css/dropify.min.css">
+    <script src="assets/js/charts/chartjs.js"></script>
+    <script src="assets/vendors/chartjs/Chart.min.js"></script>
+    <script src="assets/js/dashboard.js"></script>
 
    
     <!--  -->

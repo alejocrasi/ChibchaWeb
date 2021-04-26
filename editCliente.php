@@ -342,7 +342,7 @@ $cod_cliente=$_GET["cod_cliente"];
                     <div class="item-wrapper">
                       <form id="mod" action="javascript:void(0);" onsubmit="modCliente();">
                           <div id="insertar">
-                          
+
 
                           </div>     
                           <div >
