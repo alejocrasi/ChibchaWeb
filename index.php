@@ -182,7 +182,7 @@
 
             <div class="col-lg-4 box" data-aos="zoom-in" data-aos-delay="200">
               <h3>Chibcha_Platino</h3>
-              <h4>$0<span>per month</span></h4>
+              <h4>$25000<span>por mes</span></h4>
               <ul>
                 <li><i class="bx bx-check"></i> 12G Espacio disponible</li>
                 <li><i class="bx bx-check"></i> 10 Dominios</li>
@@ -196,7 +196,7 @@
 
             <div class="col-lg-4 box featured" data-aos="zoom-in" data-aos-delay="100">
               <h3>Chibcha_Plata</h3>
-              <h4>$650.000<span>per month</span></h4>
+              <h4>$60000<span>por mes</span></h4>
               <ul>
                 <li><i class="bx bx-check"></i> 40G Espacio disponible</li>
                 <li><i class="bx bx-check"></i> 40 Dominios</li>
@@ -210,7 +210,7 @@
 
             <div class="col-lg-4 box" data-aos="zoom-in" data-aos-delay="200">
               <h3>Chibcha_Oro</h3>
-              <h4>$900<span>per month</span></h4>
+              <h4>$85000<span>por mes</span></h4>
               <ul>
                 <li><i class="bx bx-check"></i> 80G Espacio disponible</li>
                 <li><i class="bx bx-check"></i> +50 Dominios</li>
