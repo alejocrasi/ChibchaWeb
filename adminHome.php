@@ -49,6 +49,10 @@ include('graficas.php');
 .sidebar .navigation-menu li a {
     
     color: #ffffff;
+    
+}
+.sidebar {
+    
     background: #790606;
     
 }

@@ -57,6 +57,10 @@ if (!isset($_SESSION['redirect'])) {
 .sidebar .navigation-menu li a {
     
     color: #ffffff;
+    
+}
+.sidebar {
+    
     background: #790606;
     
 }
