@@ -1,10 +1,10 @@
 <?php
 include_once('../persistencia/db.php');
-$query = "SELECT `num_ticket`, `URL_pagina`, `nivel_ticket`, `correo_cliente`, `reclamo`, `respuesta`   FROM `ticket`";
+$query = "SELECT `num_ticket`, `URL_dominio`, `nivel_ticket`, `correo_cliente`, `reclamo`, `respuesta`   FROM `ticket`";
 
 $stmt = $mysqli->prepare($query);
 $stmt -> execute();
-$stmt -> bind_result($num_ticket,$URL_pagina,$nivel_ticket,$correo_cliente,$reclamo,$respuesta);
+$stmt -> bind_result($num_ticket,$URL_dominio,$nivel_ticket,$correo_cliente,$reclamo,$respuesta);
 
 $rta="";
 $tickets=array();
@@ -12,7 +12,7 @@ while($stmt -> fetch()) {
     $aux=1;
     $ticket=array(
         "num_ticket"=>$num_ticket,
-        "URL_pagina"=>$URL_pagina,
+        "URL_dominio"=>$URL_dominio,
         "nivel_ticket"=>$nivel_ticket,
         "correo_cliente"=>$correo_cliente,
         "reclamo"=>$reclamo,
