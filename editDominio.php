@@ -189,36 +189,49 @@ if (!isset($_SESSION['redirect'])) {
       <!-- partial -->
       <div class="page-content-wrapper">
         <div class="page-content-wrapper-inner">
-          <?php 
-            require_once('routingSt.php');
-          ?>
-          
-        <!-- content viewport ends -->
-<footer id="footer">
+          <div class="viewport-header">
+            <div class="row">
+              <div class="col-12 py-5">
+                <h4>Distribuidor</h4>
+                <div class="form-group">
+                                                           
 
-<div class="footer-top">
+              </div>
+            </div>       
+          </div>
+          <div class="content-viewport">
+            <div class="row">              
+              <div class="col-lg-10 equel-grid">
+                <div class="grid">
+                  <p class="grid-header">Editar Cliente</p>
+                   <div class="grid-body">
+                    <div class="item-wrapper">
+                      <form id="mod" action="javascript:void(0);" onsubmit="modCliente();">
+                          <div id="insertar">
+                          
 
-  <div class="container">
-
-    <div class="row justify-content-center">
-      <div class="col-lg-6">
-        <a class="scrollto footer-logo"><img src="assets/img/hero-logo.png" alt=""></a>
-        <h3>OBTÉN TU DOMINIO</h3>
-        <p>Usa tu creatividad para elegir el nombre perfecto para tu dominio.</p>
-      </div>
-    </div>
-
-    <div class="row footer-newsletter justify-content-center">
-      <div class="col-lg-6">
-        <form action="" method="post">
-          <input type="email" name="email" placeholder="Ingresa el dominio que deseas registrar"><input onclick="getDominios()" type="submit" value="Buscar">
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-</footer><!-- End Footer -->
+                          </div>     
+                          <div >
+                            <br>
+                              <div class="form-group row showcase_row_area" style="float:right;" >
+                                <div>                  
+                                  <a href="adminClientes.php" class="btn btn-warning" style="margin-right:15px;">Cancelar</a>
+                                </div>
+                                <div>
+                                  <button type="submit" class="btn btn-success">Aceptar</button>
+                                </div>
+                                
+                              </div>
+                          </div>
+                          </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>   
+          </div>
+        
 
 
         <!-- partial:../partials/_footer.html -->
