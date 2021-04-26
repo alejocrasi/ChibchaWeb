@@ -21,7 +21,7 @@ while($stmt -> fetch()) {
 $response=array();
 if(count($dominos)>0){
     $response = array(
-        'clientes' => $clientes,
+        'dominios' => $dominos,
         'status' => 1
     );
 }else{

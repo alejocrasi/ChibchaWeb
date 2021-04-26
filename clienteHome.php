@@ -53,14 +53,8 @@ if (!isset($_SESSION['redirect'])) {
 }
 </style>
 <script>
-   window.onload=function(){
-    
-    getDominios();
-
-  };
-
-
   function getDominios(){
+    dominio = document.getElementsByName("email")[0].value;
     $.ajax({
         type: "POST",
         url: "ws/getDominios.php",
@@ -71,21 +65,11 @@ if (!isset($_SESSION['redirect'])) {
                 var html = '';
                 var i;
                 for (i = 0; i < data.length; i++) {
-                html += '<tr>' +
-             '<td><img width="50px" height="50px" src="assets/images/logos/' + data[i]["logo"] + '"></td>' +
-             '<td>' + data[i]["programa"] + '</td>' +
-             '<td>' + data[i]["nombre"] + '</td>' +
-             '<td>' + data[i]["correo_empresa"] + '</td>' +
-             '<td>' + data[i]["descripcion_empresa"] + '</td>' +
-             '<td>' + data[i]["num_ingresos"] + '</td>' +
-             '<td>' + data[i]["estado"] + '</td>' +
-             '<td><a href="assets/images/cc/' + data[i]["cc_empresa"] + '">documento</a></td>' +
-             '<td><a href="">'+'<button type="button" rel=tooltip" class="btn btn-outline-info btn-rounded">edit'
-             '</tr>';
-
-           }
-          $('#company').html(html);
-          
+                 if(dominio == data[i]["dominio"]){
+                     alert("No existe este dominio")
+                 }
+                 else{alert("Ya existe el dominio")}
+                }
             }
         },
         error: function (data) {
@@ -93,7 +77,6 @@ if (!isset($_SESSION['redirect'])) {
         },
     })
   }
-
 </script>
 
   <body class="header-fixed">
