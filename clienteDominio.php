@@ -43,7 +43,20 @@ if (!isset($_SESSION['redirect'])) {
     <link href="assets/css/hvcss.css" rel="stylesheet"/>
  <!-- Custom styles for this template-->
    </head>
+   <style>
 
+   .sidebar .navigation-menu li a {
+    
+    color: #ffffff;
+    
+}
+.sidebar {
+    
+    background: #790606;
+    
+}
+
+</style>
    <script>
    window.onload=function(){
     getDominios();
