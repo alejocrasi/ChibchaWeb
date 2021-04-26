@@ -64,11 +64,12 @@ if (!isset($_SESSION['redirect'])) {
     background: #790606;
     
 }
+
 </style>
 <script>
    window.onload=function(){
     
-    getDis();
+    getClientes();
     
 
   };
@@ -78,42 +79,43 @@ if (!isset($_SESSION['redirect'])) {
   }
    
 
-  function getDis(){
-    if ($.fn.DataTable.isDataTable( '#dis' ) ) {
-        $('#dis').DataTable().destroy();
+  function getClientes(){
+    if ($.fn.DataTable.isDataTable( '#cliente' ) ) {
+        $('#cliente').DataTable().destroy();
     }
     $.ajax({
         type: "POST",
-        url: "ws/getDistribuidores.php",
+        url: "ws/getDominios.php",
         success: function (data) { 
           console.log(data);   
         data = JSON.parse(data);    
             if (data["status"] == 1) {
-                data = data["distribuidores"];
+                data = data["dominios"];
+                var data2 = new Array();
                 var html = '';
-                var i;
-                for (i = 0; i < data.length ; i++) {
-                  
-                  
-                html += '<tr>' +
-                        '<td>' + data[i]["cod_distribuidor"] + '</td>' +
-                        '<td>' + data[i]["razon_social"] + '</td>' +
-                        '<td>' + data[i]["NIT_distribuidor"] + '</td>' +
-                        '<td>' + data[i]["categoria_distribuidor"] + '</td>' + 
-                        '<td>' + data[i]["correo_distribuidor"] + '</td>' +
-                        '<td>' + data[i]["password_distribuidor"] + '</td>' +
-                        '<td>' + data[i]["plan_pago_distribuidor"] + '</td>' +
-                        '<td><a href="editDistribuidor.php?nit=' + data[i]["NIT_distribuidor"] +'">'+'<button type="button" rel=tooltip" class="btn btn-info btn-rounded">Editar ' + 
-                        '<td><a href="calComisiones.php?nit=' + data[i]["NIT_distribuidor"] +'">'+'<button type="button" rel=tooltip" class="btn btn-info btn-rounded">Comisiones ' +  
- 
+
+                for (let index = 0; index < data.length; index++) {
+                  if (data[i]["NIT_distribuidor"] == <?php echo $_SESSION['NIT_distribuidor'];?>) {
+                    html += '<tr>' +
+                        '<td>' + data[i]["URL_dominio"] + '</td>' +
+                        '<td>' + data[i]["ip_dominio"] + '</td>' +
+                        '<td>' + data[i]["correo_cliente"] + '</td>' +
+                        '<td>' + data[i]["NIT_distribuidor"] + '</td>' +     
+                      
+              
+                        '<td><a href="editCliente.php?correo_cliente=' + data[i]["correo_cliente"] +'">'+'<button type="button" rel=tooltip" class="btn btn-info btn-rounded">editar ' +  
                         '</tr>';
-           }
+                    
+                  }                  
+                }
+                console.log(data);  
+                
           
-          $('#dis tbody').html(html);
+          $('#cliente tbody').html(html);
           
             }
             $("#contentPage").html(data);
-                    $('#dis').DataTable({
+                    $('#cliente').DataTable({
                         "language": {
                             "sProcessing":    "Procesando...",
                             "sLengthMenu":    "Mostrar _MENU_ registros",
@@ -197,39 +199,29 @@ if (!isset($_SESSION['redirect'])) {
             <img class="profile-img img-lg rounded-circle" src="assets\images\profile\users\logoAdmin.jpg" alt="profile image">
           </div>
           <div class="info-wrapper">
-            <p class="user-name"><?php echo $_SESSION['user_admin'];?></p>
+            <p class="user-name"><?php echo $_SESSION['razon_social'];?></p>
           </div>
         </div>
         <ul class="navigation-menu">
           <li class="nav-category-divider">Menu</li>
           <li>
-            <a href="adminHome.php">
+            <a href="distribuidoresHome.php">
               <span class="link-title">Estadisticas</span>
               <i class="mdi mdi-gauge link-icon"></i>
             </a>
           </li>
           
           <li>
-            <a href="adminEmpleados.php">
-              <span class="link-title">Gestion de empleados</span>
+            <a href="distribuidoresClientes.php">
+              <span class="link-title">mis Clientes</span>
               <i class="mdi mdi mdi-bookmark-plus link-icon"></i>
             </a>
           </li>
-          <li>
-            <a href="adminClientes.php">
-              <span class="link-title">Gestion de clientes</span>
-              <i class="mdi mdi mdi-human-greeting link-icon"></i>
-            </a>
-          </li>
-          <li>
-            <a href="adminDistribuidores.php">
-              <span class="link-title">Gestion de distribuidores</span>
-              <i class="mdi mdi-clipboard-outline link-icon"></i>
-            </a>
-          </li>
+          
 
           
         </ul>
+        
       </div>
       <!-- partial -->
       <div class="page-content-wrapper">
@@ -237,7 +229,7 @@ if (!isset($_SESSION['redirect'])) {
           <div class="viewport-header" style="margin-left: -2%;">
             <div class="row">
               <div class="col-12 py-5">
-                <h4 style="margin-left: 2%; width: 100%;">Distribuidor</h4>
+                <h4 style="margin-left: 2%; width: 100%;">Clientes</h4>
               </div>
             </div>       
           </div>
@@ -245,27 +237,24 @@ if (!isset($_SESSION['redirect'])) {
             <div class="row">              
               <div class="col-lg-27">
                 <div class="grid">
-                  <p class="grid-header">Lista de Distribuidor</p>
+                  <p class="grid-header">Lista de Clientes</p>
                   <div class="item-wrapper text-center">
                       <div style="width: 1060px;">
-                      <table id="dis" name="dis" class="display nowrap dataTable dtr-inline collapsed no-footer" role="grid" aria-describedby="dis_info">
+                      <table id="cliente" name="cliente" class="display nowrap dataTable dtr-inline collapsed no-footer" role="grid" aria-describedby="cliente_info">
                       <thead>
                       <tr role="row">
-                        <th class="sorting" tabindex="0" aria-controls="dis" rowspan="1" colspan="1" aria-label="codigo: Activar para ordenar la columna de manera ascendente" style="width: 1px;">codigo</th>
-                        <th class="sorting" tabindex="0" aria-controls="dis" rowspan="1" colspan="1" aria-label="nom_empleado: Activar para ordenar la columna de manera ascendente" style="width: 1px;">razon social</th>
-                        <th class="sorting" tabindex="0" aria-controls="dis" rowspan="1" colspan="1" aria-label="NIT : Activar para ordenar la columna de manera ascendente" style="width: 1px;">NIT </th>
-                        <th class="sorting" tabindex="0" aria-controls="dis" rowspan="1" colspan="1" aria-label="categoria_distribuidor: Activar para ordenar la columna de manera ascendente" style="width: 1px;">categoria</th>
-                        <th class="sorting" tabindex="0" aria-controls="dis" rowspan="1" colspan="1" aria-label="correo_distribuidor: Activar para ordenar la columna de manera ascendente" style="width: 1px;">correo</th>
-                        <th class="sorting" tabindex="0" aria-controls="dis" rowspan="1" colspan="1" aria-label="password_distribuidor: Activar para ordenar la columna de manera ascendente" style="width: 1px;">password</th>
-                        <th class="sorting" tabindex="0" aria-controls="dis" rowspan="1" colspan="1" aria-label="plan_pago_distribuidor: Activar para ordenar la columna de manera ascendente" style="width: 1px;">plan pago</th>
+                        <th class="sorting" tabindex="0" aria-controls="cliente" rowspan="1" colspan="1" aria-label="URL_dominio: Activar para ordenar la columna de manera ascendente" style="width: 1px;">URL</th>
+                        <th class="sorting" tabindex="0" aria-controls="cliente" rowspan="1" colspan="1" aria-label="ip_dominio: Activar para ordenar la columna de manera ascendente" style="width: 1px;">ip dominio</th>
+                        <th class="sorting" tabindex="0" aria-controls="cliente" rowspan="1" colspan="1" aria-label="correo_cliente : Activar para ordenar la columna de manera ascendente" style="width: 1px;">cliente </th>
+                        <th class="sorting" tabindex="0" aria-controls="cliente" rowspan="1" colspan="1" aria-label="NIT_distribuidor: Activar para ordenar la columna de manera ascendente" style="width: 1px;">distribuidor</th>
+                        
+                        <th class="sorting" tabindex="0" aria-controls="cliente" rowspan="1" colspan="1" aria-label="opciones: Activar para ordenar la columna de manera ascendente" style="width: 1px;">opciones</th>
 
-                        <th class="sorting" tabindex="0" aria-controls="dis" rowspan="1" colspan="1" aria-label="opciones: Activar para ordenar la columna de manera ascendente" style="width: 1px;">opciones</th>
+                        
 
                       </tr>
-
-
                     </thead>
-                      <tbody id="dis" name="dis"><tr role="row" class="odd"></tr>
+                      <tbody id="cliente" name="cliente"><tr role="row" class="odd"></tr>
                       </tbody>
                         
                       </table>

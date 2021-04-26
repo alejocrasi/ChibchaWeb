@@ -1,42 +1,36 @@
 <?php
-header("Expires: Tue, 01 Jan 2000 00:00:00 GMT");
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
 session_start();
-
+header ("Pragma-directive: no-cache");
+header ("Cache-directive: no-cache");
+header ("Cache-control: no-cache");
+header ("Pragma: no-cache");
+header ("Expires: 0");
 if (!isset($_SESSION['redirect'])) {
     header('Location: index.php');
 }
-
-$nit=$_SESSION["nit"];
+include('graficas.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Enterprise Home</title>
+    <title>Admin Home</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="assets/vendors/iconfonts/mdi/css/materialdesignicons.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.addons.css">
     <!-- endinject -->
+    <!-- vendor css for this page -->
+    <!-- End vendor css for this page -->
+    <!-- inject:css -->
     <link rel="stylesheet" href="assets/css/shared/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!-- endinject -->
     <!-- Layout style -->
     <link rel="stylesheet" href="assets/css/demo_1/style.css">
     <!-- Layout style -->
     <link rel="shortcut icon" href="assets/images/favicon.ico" />
-    <script src="estilos_tp2/vendor/jquery/jquery.min.js"></script>
-    <script src="estilos_tp2/vendor/jquery-easing/jquery.easing.min.js"></script>
-    
-
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
-    </head>
+  </head>
 
 
 <style>
@@ -52,12 +46,36 @@ $nit=$_SESSION["nit"];
   width:40%;
   margin-left:8%;
 }
+.sidebar .navigation-menu li a {
+    
+    color: #ffffff;
+    
+}
+.sidebar {
+    
+    background: #790606;
+    
+}
+
 </style>
+<script>
+   window.onload=function(){
+    graf();
+  };
+ 
+
+  function ocultar(){
+    $('#alert_pwo').css('display','none');
+  }
+  
+
+</script>
+
   <body class="header-fixed">
     <!-- partial:../partials/_header.html -->
     <nav class="t-header">
       <div class="t-header-brand-wrapper">
-        <a href="?menu=stats">
+        <a href="distribuidoresHome.php">
           <img class="logo" src="assets/images/logo.png" alt="">
           <img class="logo-mini" src="assets/images/logo.png" alt="">
         </a>
@@ -77,10 +95,6 @@ $nit=$_SESSION["nit"];
                   <h6 class="dropdown-title">Opciones</h6>
                 </div>
                 <div class="dropdown-body border-top pt-0">
-                  <a href="?menu=editProfile" class="dropdown-grid">
-                    <i class="grid-icon mdi mdi-security mdi-2x"></i>
-                    <span class="grid-tittle">Editar Perfil</span>
-                  </a>
                   <a class="dropdown-grid" href="logout.php">
                     <i class="grid-icon mdi mdi-exit-to-app mdi-2x"></i>
                     <span class="grid-tittle">Cerrar sesión</span>
@@ -99,47 +113,74 @@ $nit=$_SESSION["nit"];
       <div class="sidebar">
         <div class="user-profile">
           <div class="display-avatar animated-avatar">
-            <img class="profile-img img-lg rounded-circle" src="assets/images/logos/<?php echo $_SESSION['logo'];?>" alt="profile image">
+            <img class="profile-img img-lg rounded-circle" src="assets\images\profile\users\logoAdmin.jpg" alt="profile image">
           </div>
           <div class="info-wrapper">
-            <p class="user-name"><?php echo $_SESSION['nombre'];?></p>
-            <p>NIT <?php echo $_SESSION['nit'];?></p>
+            <p class="user-name"><?php echo $_SESSION['razon_social'];?></p>
           </div>
         </div>
         <ul class="navigation-menu">
+          <li class="nav-category-divider">Menu</li>
           <li>
-            <a href="?menu=stats">
+            <a href="distribuidoresHome.php">
               <span class="link-title">Estadisticas</span>
               <i class="mdi mdi-gauge link-icon"></i>
             </a>
           </li>
+          
           <li>
-            <a href="?menu=vacants">
-              <span class="link-title">Mis Vacantes</span>
-              <i class="mdi mdi-clipboard-outline link-icon"></i>
+            <a href="distribuidoresClientes.php">
+              <span class="link-title">mis Clientes</span>
+              <i class="mdi mdi mdi-bookmark-plus link-icon"></i>
             </a>
           </li>
-          <li>
-            <a href="?menu=aspirants">
-              <span class="link-title">Aspirantes</span>
-              <i class="mdi mdi mdi-human-greeting link-icon"></i>
-            </a>
-          </li>
-          <li>
-          <a href="assets/manuales/Manual Empresa.pdf" target="blank">
-              <span class="link-title">Manual Empresa</span>
-              <i class="mdi mdi-file-pdf link-icon"></i>
-            </a>
-          </li>
+          
+
+          
         </ul>
+        
       </div>
       <!-- partial -->
-      <div class="page-content-wrapper">
+    <div class="page-content-wrapper">
         <div class="page-content-wrapper-inner">
-          <?php 
-            require_once('routingCp.php');
-          ?>
-        <!-- content viewport ends -->
+          <div class="content-viewport">
+            <div class="row">
+              <div class="col-12 py-5">
+                <h4>Estadisticas</h4>
+              </div>
+            </div>
+            <div class="row">
+
+             
+             
+              
+
+              <div class="col-md-6">
+              <div class="grid">
+                <div class="grid-body">
+                  <h2 class="grid-title">Grafica de distribuidores</h2>
+                  <div class="item-wrapper">
+                    <canvas id="grafica_tickets_resueltos" width="600" height="400"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="grid">
+                <div class="grid-body">
+                  <h2 class="grid-title">Grafica de Clientes por membresia</h2>
+                  <div class="item-wrapper">
+                    <canvas id="grafica_tipo_clientes" width="600" height="400"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            
+
+            
+      <!-- page content ends -->
         <!-- partial:../partials/_footer.html -->
         <footer class="footer">
           <div class="row" style="display:block;text-align:center;">
@@ -161,18 +202,17 @@ $nit=$_SESSION["nit"];
       </div>
       <!-- page content ends -->
     </div>
+  
+    <!--page body ends -->
+    <!-- SCRIPT LOADING START FORM HERE /////////////-->
+    <!-- plugins:js -->
     <script src="assets/vendors/js/core.js"></script>
-    <script src="assets/vendors/js/vendor.addons.js"></script>
-    <script src="assets/js/template.js"></script>
-    <!-- graficas -->
-    <script src="assets/js/charts/chartjs.js"></script>
+    <!--  <script src="assets/vendors/js/vendor.addons.js"></script>-->
+     <script src="assets/js/charts/chartjs.js"></script>
     <script src="assets/vendors/chartjs/Chart.min.js"></script>
     <script src="assets/js/dashboard.js"></script>
-
-      <!-- Dropify file input -->
-      <script src="assets/dist/js/dropify.min.js"></script>
-    <link rel="stylesheet" href="assets/dist/css/dropify.min.css">
-
+    <!-- build:js -->
+    <script src="assets/js/template.js"></script>
     <!--  -->
   </body>
 </html>
