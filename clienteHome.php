@@ -166,7 +166,7 @@ if (!isset($_SESSION['redirect'])) {
         
          
           <li>
-            <a href="ClienteHome">
+            <a href="ClienteHome.php">
               <span class="link-title">Registrar Dominio</span>
               <i class="mdi mdi mdi-human-greeting link-icon"></i>
             </a>
@@ -182,7 +182,7 @@ if (!isset($_SESSION['redirect'])) {
           </li>
 
           <li>
-            <a href="clienteSoporte">
+            <a href="clienteSoporte.php">
               <span class="link-title">Soporte</span>
               <i class="mdi mdi mdi-bookmark-plus link-icon"></i>
             </a>
