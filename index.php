@@ -291,6 +291,7 @@
     </main>
       <!-- ======= Footer ======= -->
     <footer id="footer">
+    <footer id="footer">
 <div class="footer-top">
   <div class="container">
     <div class="row">
@@ -298,39 +299,31 @@
       <div class="col-lg-3 col-md-6 footer-contact">
         <h3>ChibchaWeb</h3>
         <p>
-          A108 Adam Street <br>
-          New York, NY 535022<br>
-          United States <br><br>
-          <strong>Phone:</strong> +1 5589 55488 55<br>
-          <strong>Email:</strong> info@example.com<br>
+          Bogota <br>
+          Av. Cra. 9 No. 131 A - 02<br>
+          Colombia <br><br>
+          <strong>Telefono:</strong> (571) 648 9000<br>
+          <strong>Correo:</strong> atencionalusuario@<br>unbosque.edu.co<br>
         </p>
       </div>
-
       <div class="col-lg-3 col-md-6 footer-links">
-        <h4>Useful Links</h4>
+        <h4>Links</h4>
         <ul>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+          <li><i class="bx bx-chevron-right"></i> <a href="#pricing">Precios</a></li>
+          <li><i class="bx bx-chevron-right"></i> <a href="#faq">Soporte</a></li>
+          <li><i class="bx bx-chevron-right"></i> <a href="Login.php">Login</a></li>
         </ul>
       </div>
 
       <div class="col-lg-3 col-md-6 footer-links">
-        <h4>Our Services</h4>
+        <h4>Servicios</h4>
         <ul>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-          <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+          <li><i class="bx bx-chevron-right"></i> <a href="#services">Servicios</a></li>
         </ul>
       </div>
 
       <div class="col-lg-3 col-md-6 footer-links">
-        <h4>Our Social Networks</h4>
-        <p>Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies</p>
+        <h4>Redes sociales</h4>
         <div class="social-links mt-3">
           <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
           <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>

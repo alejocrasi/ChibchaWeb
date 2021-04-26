@@ -190,21 +190,21 @@ if (!isset($_SESSION['redirect'])) {
               <div class="info-box">
                 <i class="bx bx-map"></i>
                 <h3>Direccion</h3>
-                <p>A108 Adam Street, New York, NY 535022</p>
+                <p>Av. Cra. 9 No. 131 A - 02<br>Bogota Colombia</p>
               </div>
             </div>
             <div class="col-lg-4 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="200">
               <div class="info-box">
                 <i class="bx bx-envelope"></i>
                 <h3>Correo</h3>
-                <p>andres@uni.com<br>contact@example.com</p>
+                <p>atencionalusuario@<br>unbosque.edu.co</p>
               </div>
             </div>
             <div class="col-lg-4 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
               <div class="info-box">
                 <i class="bx bx-phone-call"></i>
                 <h3>Contactanos</h3>
-                <p>+1 5589 55488 55<br>+1 6678 254445 41</p>
+                <p>(571) 648 9000</p>
               </div>
             </div>
           </div>
