@@ -54,6 +54,12 @@ if (!isset($_SESSION['redirect'])) {
   width:40%;
   margin-left:8%;
 }
+.sidebar .navigation-menu li a {
+    
+    color: #ffffff;
+    background: #790606;
+    
+}
 </style>
 <script>
    window.onload=function(){

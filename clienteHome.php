@@ -132,6 +132,7 @@ if (!isset($_SESSION['redirect'])) {
           </div>
         <ul class="navigation-menu">
           <li class="nav-category-divider">Menu</li>
+        
          
           <li>
             <a href="ClienteHome">
@@ -189,8 +190,8 @@ if (!isset($_SESSION['redirect'])) {
       <!-- partial -->
       <div class="page-content-wrapper">
         <div class="page-content-wrapper-inner">
-          <?php 
-            require_once('routingSt.php');
+        <?php 
+            require_once('routing.php');
           ?>
           
         <!-- content viewport ends -->
