@@ -48,7 +48,7 @@
             <li><a href="#services">Servicios</a></li>
             <li><a href="#pricing">Precios</a></li>
             <li><a href="#faq">Soporte</a></li>
-            <li><a href="#Nosotros">Login</a></li>
+            <li><a href="login.php">Login</a></li>
           </ul>
         </nav><!-- .nav-menu -->
 

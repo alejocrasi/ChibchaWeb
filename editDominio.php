@@ -68,7 +68,7 @@ if (!isset($_SESSION['redirect'])) {
                  if(dominio == data[i]["URL_dominio"]){
                      alert("Ya existe el dominio");
                  }
-                 else{window.location="editDominio.php";}
+                 else{window.location="ClienteRegistrarDominio.php";}
                 }
             }
         },
@@ -132,7 +132,6 @@ if (!isset($_SESSION['redirect'])) {
           </div>
         <ul class="navigation-menu">
           <li class="nav-category-divider">Menu</li>
-        
          
           <li>
             <a href="ClienteHome">
@@ -190,8 +189,8 @@ if (!isset($_SESSION['redirect'])) {
       <!-- partial -->
       <div class="page-content-wrapper">
         <div class="page-content-wrapper-inner">
-        <?php 
-            require_once('routing.php');
+          <?php 
+            require_once('routingSt.php');
           ?>
           
         <!-- content viewport ends -->
