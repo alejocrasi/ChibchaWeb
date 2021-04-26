@@ -130,19 +130,19 @@ include('graficas.php');
           
           <li>
             <a href="adminEmpleados.php">
-              <span class="link-title">Gestion de empleados</span>
+              <span class="link-title">Gestion de Empleados</span>
               <i class="mdi mdi mdi-bookmark-plus link-icon"></i>
             </a>
           </li>
           <li>
             <a href="adminClientes.php">
-              <span class="link-title">Gestion de clientes</span>
+              <span class="link-title">Gestion de Clientes</span>
               <i class="mdi mdi mdi-human-greeting link-icon"></i>
             </a>
           </li>
           <li>
             <a href="adminDistribuidores.php">
-              <span class="link-title">Gestion de distribuidores</span>
+              <span class="link-title">Gestion de Distribuidores</span>
               <i class="mdi mdi-clipboard-outline link-icon"></i>
             </a>
           </li>

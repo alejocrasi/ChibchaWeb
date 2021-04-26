@@ -37,6 +37,7 @@ function graf() {
                       borderWidth: 0
                     }
                   ]
+                  
 
 
                   };
