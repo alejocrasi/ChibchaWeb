@@ -55,19 +55,19 @@ if (!isset($_SESSION['redirect'])) {
 <script>
    window.onload=function(){
     
-    getCompanies();
+    getDominios();
 
   };
 
 
-  function getCompanies(){
+  function getDominios(){
     $.ajax({
         type: "POST",
-        url: "ws/getCompanies.php",
+        url: "ws/getDominios.php",
         success: function (data) {    
         data = JSON.parse(data);    
             if (data["status"] == 1) {
-                data = data["companies"];
+                data = data["dominios"];
                 var html = '';
                 var i;
                 for (i = 0; i < data.length; i++) {
